@@ -185,12 +185,12 @@ function StatCard({ value, label, prefix = '', suffix = '', decimals = 0, sub }:
   value: number; label: string; prefix?: string; suffix?: string; decimals?: number; sub?: string;
 }) {
   return (
-    <div style={{ flex: 1, padding: '24px 20px', borderRight: `1px solid ${BORDER}`, textAlign: 'center', minWidth: 0 }}>
+    <div style={{ flex: 1, padding: '32px 24px', borderRight: `1px solid ${BORDER}`, textAlign: 'center', minWidth: 0 }}>
       <div style={{ fontSize: 26, fontWeight: 800, color: OX, letterSpacing: '-0.02em', lineHeight: 1 }}>
         <Counter to={value} prefix={prefix} suffix={suffix} decimals={decimals} />
       </div>
-      <div style={{ fontSize: 11, color: MUTED, marginTop: 6, fontWeight: 600, lineHeight: 1.3, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
-      {sub && <div style={{ fontSize: 10, color: SOFT, marginTop: 3 }}>{sub}</div>}
+      <div style={{ fontSize: 11, color: MUTED, marginTop: 8, fontWeight: 600, lineHeight: 1.3, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+      {sub && <div style={{ fontSize: 10, color: SOFT, marginTop: 4 }}>{sub}</div>}
     </div>
   );
 }
@@ -400,10 +400,10 @@ export default function InteractiveCV() {
           <StatCard value={3}    suffix="×"                label="Media Revenue"      sub="18 months" />
           <StatCard value={80}   suffix="%"                label="Net Retention"      sub="company-wide NRR" />
           <StatCard value={100}  prefix="€" suffix="K+ ACV" label="Contract Value"    sub="up from €60K" />
-          <div style={{ flex: 1, padding: '24px 20px', textAlign: 'center', minWidth: 0 }}>
+          <div style={{ flex: 1, padding: '32px 24px', textAlign: 'center', minWidth: 0 }}>
             <div style={{ fontSize: 26, fontWeight: 800, color: OX, lineHeight: 1 }}>APAC</div>
-            <div style={{ fontSize: 11, color: MUTED, marginTop: 6, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Regional Base</div>
-            <div style={{ fontSize: 10, color: SOFT, marginTop: 3 }}>SG · 2019–2022</div>
+            <div style={{ fontSize: 11, color: MUTED, marginTop: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Regional Base</div>
+            <div style={{ fontSize: 10, color: SOFT, marginTop: 4 }}>SG · 2019–2022</div>
           </div>
         </div>
       </div>
