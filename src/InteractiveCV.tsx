@@ -289,7 +289,7 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
         transition: 'color 0.2s',
       }}>
         {open ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
-        {open ? 'Hide achievements' : `${bullets.length} key achievements`}
+        {open ? 'Hide achievements' : 'See achievements'}
       </div>
 
       {/* Expandable bullets */}
