@@ -426,6 +426,16 @@ export default function InteractiveCV() {
           <p style={{ fontSize: 12, color: SOFT, marginBottom: 24, paddingLeft: 30 }}>Click any role to reveal achievements</p>
 
           <div style={{ marginLeft: -20 }}>
+            <Role company="Strait Up Growth" title="Founder" dates="2026 – Present" location="Singapore (Remote)"
+              context="Fractional commercial consultancy for scale-ups and lean teams. Embeds as the operator big consultancies can't be — fixing GTM systems, AI workflows, and revenue architecture without layers of junior hand-off."
+              bullets={[
+                'Delivered 30% operational efficiency improvement at COL Web Pte Ltd within four months through AI workflow redesign and process automation.',
+                'Fractional Commercial Director for NEXT.io — overhauled HubSpot pipeline, rebuilt pricing governance, and architected the prediction markets vertical GTM.',
+                'AI Fluency & Systems: designed end-to-end no-code / AI stacks for clients including Synology and English UK, eliminating manual bottlenecks and compressing sales cycles.',
+                'Client roster spans B2B SaaS, iGaming, and Tech Media: COL, NEXT.io, Synology, English UK, W.Media, ComplyAdvantage, Microgaming Asia.',
+                'Three service lines: Fractional Commercial Leadership · AI Workflow Efficiency · Growth & GTM Expansion.',
+              ]}
+            />
             <Role company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
               context="Promoted to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, and CRM Specialist."
               bullets={[
