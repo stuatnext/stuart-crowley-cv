@@ -1,5 +1,7 @@
 import React from 'react';
 
+const HEADSHOT = `${import.meta.env.BASE_URL}headshot.jpg`;
+
 export default function PrintableCV() {
   return (
     <div className="cv-wrapper" id="cv-wrapper" style={{background: 'white', color: 'black'}}>
@@ -19,7 +21,7 @@ export default function PrintableCV() {
           </div>
           <img
             className="header-image"
-            src="https://media.licdn.com/dms/image/v2/D4E03AQGyULKJqxlZAA/profile-displayphoto-scale_200_200/B4EZpC2qXRKoAY-/0/1762058217606?e=2147483647&v=beta&t=1p_W9zNrUntjK2nO_nU3bZFCaREEKd9msfJVXKY4a70"
+            src={HEADSHOT}
             alt="Stuart Crowley"
           />
         </div>
@@ -230,30 +232,15 @@ export default function PrintableCV() {
           <div className="skills-container">
             <div className="skill-category">
               <span className="skill-category-label">CRM &amp; Revenue Ops:</span>
-              <div className="skill-tags">
-                <span className="skill-tag">HubSpot (Advanced)</span>
-                <span className="skill-tag">Salesforce</span>
-                <span className="skill-tag">Pipeline Architecture</span>
-                <span className="skill-tag">Forecasting Models</span>
-              </div>
+              <span className="skill-items">HubSpot (Advanced), Salesforce, Pipeline Architecture, Forecasting Models</span>
             </div>
             <div className="skill-category">
               <span className="skill-category-label">No-Code &amp; Automation:</span>
-              <div className="skill-tags">
-                <span className="skill-tag">Make.com</span>
-                <span className="skill-tag">Softr</span>
-                <span className="skill-tag">Airtable</span>
-                <span className="skill-tag">Monday.com</span>
-              </div>
+              <span className="skill-items">Make.com, Softr, Airtable, Monday.com</span>
             </div>
             <div className="skill-category">
               <span className="skill-category-label">AI &amp; Intelligence:</span>
-              <div className="skill-tags">
-                <span className="skill-tag">Claude</span>
-                <span className="skill-tag">Gemini</span>
-                <span className="skill-tag">ChatGPT</span>
-                <span className="skill-tag">Prompt Engineering</span>
-              </div>
+              <span className="skill-items">Claude, Gemini, ChatGPT, Prompt Engineering</span>
             </div>
           </div>
         </div>

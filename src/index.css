@@ -234,8 +234,9 @@ body {
 }
 
 .role-achievements li {
-  position: relative;
-  padding-left: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
   margin-bottom: 6px;
   font-size: 9.5pt;
   color: #2a2a2a;
@@ -248,50 +249,39 @@ body {
 
 .role-achievements li::before {
   content: '';
-  position: absolute;
-  left: 2px;
-  top: 7px;
   width: 5px;
   height: 5px;
+  min-width: 5px;
   background: #1e3a5f;
   border-radius: 50%;
+  margin-top: 0.45em;
+  flex-shrink: 0;
 }
 
 /* ── Skills ───────────────────────────────────────────────── */
 .skills-container {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .skill-category {
   display: flex;
   align-items: baseline;
-  gap: 14px;
+  gap: 10px;
+  font-size: 9.5pt;
+  line-height: 1.55;
 }
 
 .skill-category-label {
-  font-size: 9.5pt;
   color: #1e3a5f;
   font-weight: 600;
   min-width: 175px;
   flex-shrink: 0;
 }
 
-.skill-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.skill-tag {
-  background: #f0f6fc;
-  color: #1e3a5f;
-  border: 1px solid #c8d8ea;
-  padding: 2px 9px;
-  border-radius: 4px;
-  font-size: 9pt;
-  font-weight: 500;
+.skill-items {
+  color: #2a2a2a;
 }
 
 /* ── Education & Additional ───────────────────────────────── */
@@ -313,8 +303,9 @@ body {
 }
 
 .additional-list li {
-  position: relative;
-  padding-left: 15px;
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
   margin-bottom: 8px;
   font-size: 9.5pt;
   color: #2a2a2a;
@@ -327,13 +318,13 @@ body {
 
 .additional-list li::before {
   content: '';
-  position: absolute;
-  left: 2px;
-  top: 7px;
   width: 5px;
   height: 5px;
+  min-width: 5px;
   background: #1e3a5f;
   border-radius: 50%;
+  margin-top: 0.45em;
+  flex-shrink: 0;
 }
 
 .additional-list .label {
