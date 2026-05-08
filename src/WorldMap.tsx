@@ -8,8 +8,8 @@ const OX     = '#7A2535';
 const BORDER = '#E2D9D0';
 const MUTED  = '#5C5050';
 
-// ISO numeric codes for the five countries
-const COVERED = new Set([826, 470, 840, 702, 158]);
+// ISO numeric codes for covered countries
+const COVERED = new Set([826, 470, 840, 702, 158, 276, 250, 724]);
 
 const LOCATIONS = [
   {
@@ -42,6 +42,24 @@ const LOCATIONS = [
     period: 'APAC operations',
     roles: ['Regional market coverage', 'B2B tech & media sector'],
   },
+  {
+    name: 'Germany',
+    coords: [10.4, 51.2] as [number, number],
+    period: '2022–2024',
+    roles: ['CloserStill Media – Tech Shows', 'B2B tech event market'],
+  },
+  {
+    name: 'France',
+    coords: [2.3, 46.2] as [number, number],
+    period: '2022–2024',
+    roles: ['CloserStill Media – Tech Shows', 'B2B tech event market'],
+  },
+  {
+    name: 'Spain',
+    coords: [-3.7, 40.4] as [number, number],
+    period: '2022–2024',
+    roles: ['CloserStill Media – Tech Shows', 'B2B tech event market'],
+  },
 ];
 
 export default function WorldMap() {
@@ -63,7 +81,7 @@ export default function WorldMap() {
               </h3>
             </div>
             <p style={{ fontSize: 13, color: MUTED, paddingLeft: 30 }}>
-              Hover a pin to explore — UK · Malta · USA · Singapore · Taiwan
+              Hover a pin to explore — UK · Malta · USA · Singapore · Taiwan · Germany · France · Spain
             </p>
           </div>
 
@@ -109,7 +127,7 @@ export default function WorldMap() {
                     const id = Number(geo.id);
                     const isCovered = COVERED.has(id);
                     const idx = isCovered
-                      ? [826, 470, 840, 702, 158].indexOf(id)
+                      ? [826, 470, 840, 702, 158, 276, 250, 724].indexOf(id)
                       : -1;
                     const isActive = active === idx;
 
