@@ -2,17 +2,15 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Mail, MapPin, Phone, Linkedin, Download, ChevronRight, ExternalLink } from 'lucide-react';
 
-const PROFILE_IMG =
-  'https://media.licdn.com/dms/image/v2/D4E03AQGyULKJqxlZAA/profile-displayphoto-scale_200_200/B4EZpC2qXRKoAY-/0/1762058217606?e=2147483647&v=beta&t=1p_W9zNrUntjK2nO_nU3bZFCaREEKd9msfJVXKY4a70';
+const PROFILE_IMG = '/stuart-crowley-cv/headshot.jpg';
 
-const container = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { staggerChildren: 0.08 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } },
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show: (i = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: i * 0.07 },
+  }),
 };
 
 export default function InteractiveCV({
@@ -23,18 +21,19 @@ export default function InteractiveCV({
   isGenerating: boolean;
 }) {
   return (
-    <div className="min-h-screen bg-[#050505] text-slate-300 font-sans selection:bg-orange-500/30 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#080808] text-slate-300 font-sans selection:bg-orange-500/30 overflow-x-hidden">
 
-      {/* Atmosphere */}
-      <div className="absolute top-0 left-0 w-full h-[700px] bg-gradient-to-b from-orange-500/8 to-transparent pointer-events-none" />
-      <div className="absolute top-1/3 right-0 w-[600px] h-[600px] bg-blue-600/4 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-orange-500/3 rounded-full blur-[100px] pointer-events-none" />
+      {/* Atmosphere blobs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] bg-orange-500/6 rounded-full blur-[120px]" />
+        <div className="absolute top-1/2 right-[-200px] w-[600px] h-[600px] bg-blue-600/4 rounded-full blur-[150px]" />
+      </div>
 
-      {/* Floating Download Button */}
+      {/* ── Floating download ── */}
       <motion.button
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
+        transition={{ delay: 1 }}
         onClick={onDownload}
         disabled={isGenerating}
         className="fixed bottom-8 right-8 z-50 flex items-center gap-2.5 bg-[#F27D26] hover:bg-[#ff9040] text-black px-6 py-3.5 rounded-full font-bold shadow-[0_0_50px_rgba(242,125,38,0.35)] transition-all disabled:opacity-50 disabled:cursor-not-allowed group text-sm"
@@ -43,117 +42,111 @@ export default function InteractiveCV({
         {isGenerating ? 'Generating PDF…' : 'Download PDF'}
       </motion.button>
 
-      <div className="max-w-6xl mx-auto px-6 py-20 lg:px-16 lg:grid lg:grid-cols-[380px_1fr] gap-20 relative z-10">
+      <div className="relative z-10 max-w-4xl mx-auto px-8 py-20 lg:px-12">
 
-        {/* ── Left column: sticky bio ── */}
-        <div className="lg:sticky lg:top-20 lg:h-[calc(100vh-160px)] flex flex-col gap-10 mb-20 lg:mb-0">
-          <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col gap-8">
-
-            {/* Photo + name */}
-            <motion.div variants={item} className="flex flex-col gap-6">
-              <img
-                src={PROFILE_IMG}
-                alt="Stuart Crowley"
-                className="w-24 h-24 rounded-full object-cover border-2 border-slate-800 shadow-[0_0_30px_rgba(242,125,38,0.15)]"
-              />
-              <div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-slate-800 bg-slate-900/60 text-[10px] font-semibold tracking-widest text-slate-400 mb-4 uppercase">
-                  <MapPin className="w-2.5 h-2.5 text-[#F27D26]" />
-                  Relocating to Singapore · COMPASS Eligible
-                </div>
-                <h1
-                  className="text-6xl lg:text-7xl font-black text-white leading-[0.95] tracking-tighter uppercase"
-                  style={{ fontFamily: "'Anton', sans-serif" }}
-                >
-                  Stuart<br />
-                  <span className="text-[#F27D26]">Crowley</span>
-                </h1>
-              </div>
-              <div className="space-y-0.5">
-                <p className="text-lg font-light text-slate-400">Commercial Director</p>
-                <p className="text-base font-semibold text-white/85">B2B SaaS · Tech · Media</p>
-              </div>
-            </motion.div>
-
-            {/* Short bio */}
-            <motion.p variants={item} className="text-sm text-slate-400 leading-relaxed">
-              8+ years building net-new revenue engines and GTM strategies across APAC, EMEA, and LATAM.
-              I convert commercial chaos into governance-grade frameworks.
-            </motion.p>
-
-            {/* Contacts */}
-            <motion.div variants={item} className="flex flex-col gap-3">
-              <a
-                href="mailto:scrowley194@gmail.com"
-                className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors group text-sm"
-              >
-                <div className="w-9 h-9 rounded-xl border border-slate-800 flex items-center justify-center group-hover:border-[#F27D26]/60 group-hover:bg-[#F27D26]/8 transition-all shrink-0">
-                  <Mail className="w-3.5 h-3.5" />
-                </div>
-                scrowley194@gmail.com
-              </a>
-              <div className="flex items-center gap-3 text-slate-400 text-sm">
-                <div className="w-9 h-9 rounded-xl border border-slate-800 flex items-center justify-center shrink-0">
-                  <Phone className="w-3.5 h-3.5" />
-                </div>
-                +44 7818 070529
-              </div>
-              <a
-                href="https://linkedin.com/in/stuart-crowley-b2b561104"
-                target="_blank"
-                rel="noreferrer"
-                className="flex items-center gap-3 text-slate-400 hover:text-white transition-colors group text-sm"
-              >
-                <div className="w-9 h-9 rounded-xl border border-slate-800 flex items-center justify-center group-hover:border-[#F27D26]/60 group-hover:bg-[#F27D26]/8 transition-all shrink-0">
-                  <Linkedin className="w-3.5 h-3.5" />
-                </div>
-                <span>LinkedIn Profile</span>
-                <ExternalLink className="w-3 h-3 opacity-40" />
-              </a>
-            </motion.div>
-
-            {/* Divider */}
-            <motion.div variants={item} className="border-t border-slate-900" />
-
-            {/* Quick stats */}
-            <motion.div variants={item} className="grid grid-cols-2 gap-4">
-              {[
-                { val: '8+', label: 'Years experience' },
-                { val: '3×', label: 'Media revenue growth' },
-                { val: '€100K+', label: 'ACV achieved' },
-                { val: 'APAC', label: 'Deep operational' },
-              ].map((s) => (
-                <div key={s.label} className="p-4 rounded-xl bg-slate-900/40 border border-slate-800/50">
-                  <div className="text-xl font-bold text-[#F27D26] mb-1">{s.val}</div>
-                  <div className="text-xs text-slate-500 leading-tight">{s.label}</div>
-                </div>
-              ))}
-            </motion.div>
-
+        {/* ── HERO ── */}
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={{ show: { transition: { staggerChildren: 0.08 } } }}
+          className="mb-24"
+        >
+          {/* Badge */}
+          <motion.div variants={fadeUp} custom={0} className="mb-8">
+            <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-slate-800 bg-slate-900/60 text-[11px] font-semibold tracking-widest text-slate-400 uppercase">
+              <MapPin className="w-3 h-3 text-[#F27D26]" />
+              Relocating to Singapore · COMPASS Eligible
+            </span>
           </motion.div>
-        </div>
 
-        {/* ── Right column: scrollable content ── */}
-        <motion.div variants={container} initial="hidden" animate="show" className="flex flex-col gap-20">
+          {/* Photo + Name row */}
+          <motion.div variants={fadeUp} custom={1} className="flex items-end gap-8 mb-8">
+            <img
+              src={PROFILE_IMG}
+              alt="Stuart Crowley"
+              className="w-32 h-32 rounded-2xl object-cover object-top border border-slate-800 shadow-[0_0_40px_rgba(0,0,0,0.5)] shrink-0"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+            <div>
+              <h1
+                className="text-[clamp(3.5rem,10vw,6.5rem)] font-black text-white leading-[0.88] tracking-tighter uppercase mb-4"
+                style={{ fontFamily: "'Anton', sans-serif" }}
+              >
+                Stuart<br />
+                <span className="text-[#F27D26]">Crowley</span>
+              </h1>
+            </div>
+          </motion.div>
+
+          {/* Title */}
+          <motion.div variants={fadeUp} custom={2} className="mb-8">
+            <p className="text-xl font-light text-slate-400">
+              Commercial Director &nbsp;·&nbsp;{' '}
+              <span className="text-white font-semibold">B2B SaaS · Tech · Media</span>
+            </p>
+          </motion.div>
+
+          {/* Contacts row */}
+          <motion.div variants={fadeUp} custom={3} className="flex flex-wrap gap-4 mb-12">
+            <a href="mailto:scrowley194@gmail.com" className="flex items-center gap-2.5 text-sm text-slate-400 hover:text-white transition-colors group">
+              <div className="w-8 h-8 rounded-lg border border-slate-800 flex items-center justify-center group-hover:border-[#F27D26]/50 group-hover:bg-[#F27D26]/8 transition-all">
+                <Mail className="w-3.5 h-3.5" />
+              </div>
+              scrowley194@gmail.com
+            </a>
+            <div className="flex items-center gap-2.5 text-sm text-slate-400">
+              <div className="w-8 h-8 rounded-lg border border-slate-800 flex items-center justify-center">
+                <Phone className="w-3.5 h-3.5" />
+              </div>
+              +44 7818 070529
+            </div>
+            <a href="https://linkedin.com/in/stuart-crowley-b2b561104" target="_blank" rel="noreferrer" className="flex items-center gap-2.5 text-sm text-slate-400 hover:text-white transition-colors group">
+              <div className="w-8 h-8 rounded-lg border border-slate-800 flex items-center justify-center group-hover:border-[#F27D26]/50 group-hover:bg-[#F27D26]/8 transition-all">
+                <Linkedin className="w-3.5 h-3.5" />
+              </div>
+              LinkedIn
+              <ExternalLink className="w-3 h-3 opacity-40" />
+            </a>
+          </motion.div>
+
+          {/* Divider */}
+          <motion.div variants={fadeUp} custom={4} className="border-t border-slate-900 mb-12" />
+
+          {/* Stats row */}
+          <motion.div variants={fadeUp} custom={5} className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {[
+              { val: '8+', label: 'Years experience' },
+              { val: '3×', label: 'Media revenue growth' },
+              { val: '€100K+', label: 'ACV achieved' },
+              { val: 'APAC', label: 'Deep operational base' },
+            ].map((s) => (
+              <div key={s.label} className="p-5 rounded-2xl bg-slate-900/40 border border-slate-800/60 hover:border-slate-700 transition-colors">
+                <div className="text-2xl font-bold text-[#F27D26] mb-1">{s.val}</div>
+                <div className="text-xs text-slate-500 leading-tight">{s.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </motion.div>
+
+        {/* ── SECTIONS ── */}
+        <div className="flex flex-col gap-24">
 
           {/* Executive Summary */}
-          <motion.section variants={item}>
-            <SectionLabel>Executive Summary</SectionLabel>
+          <Section label="Executive Summary" index={0}>
             <p className="text-xl leading-relaxed text-slate-200 font-light mb-5">
               Currently Commercial Director at NEXT.io, reporting to the CEO. Built the company's first
               formal commercial and media departments from the ground up.
             </p>
-            <p className="text-base leading-relaxed text-slate-400 font-light">
+            <p className="text-base leading-relaxed text-slate-400">
               Track record of driving ACV from €60K to €100K+ and scaling high-margin digital/affiliate
               revenue to €500K+ monthly recurring revenue — while acting as hands-on technical architect
               for CRM and no-code workflows. Actively planning a permanent return to Singapore.
             </p>
-          </motion.section>
+          </Section>
 
           {/* Core Competencies */}
-          <motion.section variants={item}>
-            <SectionLabel>Core Competencies</SectionLabel>
-            <div className="grid sm:grid-cols-2 gap-3">
+          <Section label="Core Competencies" index={1}>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {[
                 { title: 'Commercial Strategy', desc: 'GTM architecture, pricing governance, ACV/NRR optimisation.' },
                 { title: 'Sales & Pipeline Ops', desc: 'Rigorous pipeline forecasting, CRM data modelling.' },
@@ -161,24 +154,27 @@ export default function InteractiveCV({
                 { title: 'AI & Systems', desc: 'No-code workflows (Make, Softr), advanced CRM logic.' },
                 { title: 'Regional Leadership', desc: 'Deep APAC experience, scaling cross-functional teams.' },
                 { title: 'Sector Expertise', desc: 'Enterprise SaaS, iGaming, B2B Media & Events.' },
-              ].map((c) => (
-                <div
+              ].map((c, i) => (
+                <motion.div
                   key={c.title}
-                  className="p-5 rounded-2xl bg-slate-900/50 border border-slate-800/60 hover:border-slate-700 hover:bg-slate-900/70 transition-all group"
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.05, duration: 0.4 }}
+                  className="p-5 rounded-2xl bg-slate-900/50 border border-slate-800/60 hover:border-slate-700 hover:bg-slate-900/80 transition-all group"
                 >
-                  <h4 className="text-white font-semibold mb-1.5 text-sm group-hover:text-[#F27D26] transition-colors">
+                  <h4 className="text-white font-semibold mb-2 text-sm group-hover:text-[#F27D26] transition-colors">
                     {c.title}
                   </h4>
                   <p className="text-xs text-slate-500 leading-relaxed">{c.desc}</p>
-                </div>
+                </motion.div>
               ))}
             </div>
-          </motion.section>
+          </Section>
 
           {/* Experience */}
-          <motion.section variants={item}>
-            <SectionLabel>Experience</SectionLabel>
-            <div className="flex flex-col gap-0">
+          <Section label="Experience" index={2}>
+            <div className="flex flex-col">
               <ExperienceItem
                 company="NEXT.io"
                 role="Commercial Director"
@@ -238,55 +234,67 @@ export default function InteractiveCV({
                 isLast
               />
             </div>
-          </motion.section>
+          </Section>
 
           {/* Tech + Education */}
-          <motion.section variants={item} className="grid sm:grid-cols-2 gap-12 border-t border-slate-900 pt-16">
-            <div>
-              <SectionLabel>Tech Stack</SectionLabel>
-              <div className="space-y-5">
-                {[
-                  { label: 'CRM & Revenue', tools: 'HubSpot (Advanced), Salesforce' },
-                  { label: 'No-Code Logic', tools: 'Make.com, Softr, Airtable' },
-                  { label: 'AI Engineering', tools: 'Claude, Gemini, ChatGPT' },
-                ].map((t) => (
-                  <div key={t.label}>
-                    <div className="text-white text-xs font-semibold uppercase tracking-wider mb-1.5">{t.label}</div>
-                    <div className="text-slate-400 text-sm">{t.tools}</div>
-                  </div>
-                ))}
+          <Section label="Stack & Education" index={3}>
+            <div className="grid sm:grid-cols-2 gap-8">
+              <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800/60">
+                <h4 className="text-xs font-bold tracking-widest uppercase text-slate-500 mb-6">Tech Stack</h4>
+                <div className="space-y-5">
+                  {[
+                    { label: 'CRM & Revenue', tools: 'HubSpot (Advanced), Salesforce' },
+                    { label: 'No-Code Logic', tools: 'Make.com, Softr, Airtable' },
+                    { label: 'AI Engineering', tools: 'Claude, Gemini, ChatGPT' },
+                  ].map((t) => (
+                    <div key={t.label}>
+                      <div className="text-white text-xs font-semibold uppercase tracking-wider mb-1">{t.label}</div>
+                      <div className="text-slate-400 text-sm">{t.tools}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div>
-              <SectionLabel>Education</SectionLabel>
-              <div className="bg-slate-900/50 p-6 rounded-2xl border border-slate-800/60">
-                <h4 className="text-white font-semibold text-base leading-tight mb-1">Master of Journalism</h4>
-                <p className="text-slate-400 text-sm mb-4">University of Sheffield · 2018</p>
-                <div className="flex flex-wrap gap-2">
-                  <span className="px-3 py-1 bg-slate-800 rounded-lg text-xs font-medium text-slate-300">
-                    Efficiency Architect
-                  </span>
-                  <span className="px-3 py-1 bg-slate-800 rounded-lg text-xs font-medium text-slate-300">
-                    Live Intelligence
-                  </span>
+              <div className="p-6 rounded-2xl bg-slate-900/40 border border-slate-800/60">
+                <h4 className="text-xs font-bold tracking-widest uppercase text-slate-500 mb-6">Education</h4>
+                <div className="mb-4">
+                  <div className="text-white font-semibold text-lg leading-tight mb-1">Master of Journalism</div>
+                  <div className="text-slate-400 text-sm mb-4">University of Sheffield · 2018</div>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-3 py-1 bg-slate-800 rounded-lg text-xs font-medium text-slate-300">Efficiency Architect</span>
+                    <span className="px-3 py-1 bg-slate-800 rounded-lg text-xs font-medium text-slate-300">Live Intelligence</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </motion.section>
+          </Section>
 
-        </motion.div>
+        </div>
+
+        {/* Footer */}
+        <div className="mt-24 pt-12 border-t border-slate-900 text-center text-xs text-slate-600">
+          PDF version available via the Download button above
+        </div>
+
       </div>
     </div>
   );
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function Section({ label, children, index }: { label: string; children: React.ReactNode; index: number }) {
   return (
-    <div className="flex items-center gap-3 mb-8">
-      <div className="w-6 h-px bg-[#F27D26]/60" />
-      <h3 className="text-[10px] font-bold tracking-[0.22em] uppercase text-slate-500">{children}</h3>
-    </div>
+    <motion.section
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <div className="flex items-center gap-3 mb-10">
+        <div className="w-6 h-px bg-[#F27D26]/50" />
+        <h3 className="text-[10px] font-bold tracking-[0.25em] uppercase text-slate-500">{label}</h3>
+      </div>
+      {children}
+    </motion.section>
   );
 }
 
@@ -302,32 +310,28 @@ function ExperienceItem({
   isLast?: boolean;
 }) {
   return (
-    <div className={`group relative pl-8 ml-3 ${isLast ? 'pb-0' : 'pb-14'}`}>
-      {/* Timeline line */}
-      {!isLast && (
-        <div className="absolute left-0 top-3 bottom-0 w-px bg-slate-800/80" />
-      )}
-      {/* Dot */}
-      <div className="absolute w-2.5 h-2.5 rounded-full -left-[5px] top-2 bg-slate-800 border border-slate-700 group-hover:bg-[#F27D26] group-hover:border-[#F27D26] group-hover:shadow-[0_0_12px_rgba(242,125,38,0.6)] transition-all" />
+    <div className={`relative pl-10 ml-2 ${isLast ? 'pb-0' : 'pb-16'}`}>
+      {!isLast && <div className="absolute left-0 top-3 bottom-0 w-px bg-slate-800" />}
+      <div className="absolute w-3 h-3 rounded-full -left-[6px] top-2 bg-slate-800 border border-slate-700 hover:bg-[#F27D26] hover:border-[#F27D26] hover:shadow-[0_0_14px_rgba(242,125,38,0.5)] transition-all" />
 
-      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 justify-between mb-1.5">
-        <h4 className="text-xl font-bold text-white tracking-tight">{company}</h4>
-        <div className="text-xs font-mono text-slate-600">{date}</div>
+      <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 mb-2">
+        <h4 className="text-2xl font-bold text-white tracking-tight">{company}</h4>
+        <span className="text-xs font-mono text-slate-600">{date}</span>
       </div>
 
-      <div className="flex items-center gap-2.5 mb-4">
-        <span className="text-[#F27D26] text-sm font-semibold">{role}</span>
+      <div className="flex flex-wrap items-center gap-2 mb-4">
+        <span className="text-[#F27D26] font-semibold text-sm">{role}</span>
         <span className="w-1 h-1 rounded-full bg-slate-700" />
         <span className="text-xs text-slate-500">{location}</span>
       </div>
 
-      <p className="text-slate-400 text-sm leading-relaxed mb-5 font-light">{context}</p>
+      <p className="text-slate-400 text-sm leading-relaxed mb-5 italic">{context}</p>
 
       <ul className="space-y-2.5">
         {bullets.map((b, i) => (
-          <li key={i} className="flex gap-3 text-sm text-slate-300 items-start">
+          <li key={i} className="flex gap-3 text-sm text-slate-300 items-start leading-relaxed">
             <ChevronRight className="w-3.5 h-3.5 text-slate-700 shrink-0 mt-0.5" />
-            <span className="leading-relaxed">{b}</span>
+            <span>{b}</span>
           </li>
         ))}
       </ul>
