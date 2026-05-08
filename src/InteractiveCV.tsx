@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'motion/react';
 import { Mail, Phone, Linkedin, ExternalLink, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import WorldMap from './WorldMap';
 
 const HEADSHOT = `${import.meta.env.BASE_URL}headshot.jpg`;
 const OX      = '#7A2535';
@@ -409,6 +410,9 @@ export default function InteractiveCV() {
 
       {/* ── CAREER TRAJECTORY CHART ── */}
       <CareerChart />
+
+      {/* ── GEOGRAPHIC FOOTPRINT ── */}
+      <WorldMap />
 
       {/* ── MAIN BODY ── */}
       <main style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 56px 96px', display: 'grid', gridTemplateColumns: '1fr 300px', gap: 64, alignItems: 'start' }}>
