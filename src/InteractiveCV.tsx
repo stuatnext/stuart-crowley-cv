@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, Linkedin, ExternalLink, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 
-// Standalone placeholder to ensure single-file compilation. 
-// If you have your original WorldMap file, restore: import WorldMap from './WorldMap';
+// Placeholder to ensure single-file compilation in this environment.
+// Restore your import in your local GitHub environment: import WorldMap from './WorldMap';
 const WorldMap = () => null;
 
-const HEADSHOT = '/headshot.jpg';
+const HEADSHOT = './headshot.jpg';
 const OX      = '#7A2535';
 const OX_SOFT = '#F4ECEC';
 const BG      = '#F6F2ED';
@@ -350,6 +350,10 @@ export default function App() {
             <motion.img
               src={HEADSHOT}
               alt="Stuart Crowley"
+              // Fallback if local image doesn't load in preview environment
+              onError={(e) => { 
+                e.currentTarget.src = "https://ui-avatars.com/api/?name=Stuart+Crowley&background=7A2535&color=fff&size=256&font-size=0.33&bold=true"; 
+              }}
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.55 }}
@@ -362,13 +366,13 @@ export default function App() {
               transition={{ duration: 0.55, delay: 0.08 }}
             >
               <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: OX, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 5 }}>
-                <MapPin size={10} /> Relocating to Singapore · Prev EP Holder · COMPASS Eligible
+                <MapPin size={10} /> Relocating to Singapore · Prev EP Holder 2020 · COMPASS Eligible
               </div>
               <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(2.8rem, 6.5vw, 5rem)', fontWeight: 900, textTransform: 'uppercase', lineHeight: 0.9, letterSpacing: '-0.01em', marginBottom: 14 }}>
                 Stuart <span style={{ color: OX }}>Crowley</span>
               </h1>
               <p style={{ fontSize: 15, color: MUTED, marginBottom: 16, fontWeight: 300 }}>
-                Commercial Leadership / Revenue Infrastructure <span style={{ color: TEXT, fontWeight: 600 }}>· GTM B2B SaaS & Tech</span>
+                Commercial Leadership / Revenue Infrastructure <span style={{ color: TEXT, fontWeight: 600 }}>· GTM APAC + EMEA</span>
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 28px' }}>
                 <a href="mailto:scrowley194@gmail.com" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 13, color: MUTED, textDecoration: 'none' }}>
@@ -482,10 +486,10 @@ export default function App() {
 
           <SideSection title="Profile">
             <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.75 }}>
-              <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building revenue infrastructure and GTM systems across B2B SaaS, Tech, and Media in APAC, EMEA, and LATAM.</p>
+              <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building revenue infrastructure and GTM systems across APAC, EMEA, and LATAM.</p>
               <p style={{ marginBottom: 12 }}>Known for building first formal commercial departments from scratch, launching new revenue verticals, scaling ACV through pricing discipline, and replacing developer bottlenecks with operator-built systems on HubSpot, Airtable, and Make.com.</p>
-              <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue.</p>
-              <p>Lived in Singapore from 2019 to 2022 across two senior APAC roles, managing regional P&Ls of $1M to $2M+. Actively planning a permanent return for a senior commercial leadership role.</p>
+              <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue. Now responsible for the full commercial P&L: pricing, pipeline, sales, and marketing across multiple verticals.</p>
+              <p>Senior APAC operating experience across two Singapore-based roles, managing regional P&Ls of $1M to $2M+. Now planning a permanent return to Singapore for a senior commercial leadership role.</p>
             </div>
           </SideSection>
 
