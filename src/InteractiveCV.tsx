@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useInView, AnimatePresence } from 'motion/react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, Linkedin, ExternalLink, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
-import WorldMap from './WorldMap';
 
-const HEADSHOT = `${import.meta.env.BASE_URL}headshot.jpg`;
+// Standalone placeholder to ensure single-file compilation. 
+// If you have your original WorldMap file, restore: import WorldMap from './WorldMap';
+const WorldMap = () => null;
+
+const HEADSHOT = '/headshot.jpg';
 const OX      = '#7A2535';
 const OX_SOFT = '#F4ECEC';
 const BG      = '#F6F2ED';
@@ -13,11 +16,9 @@ const MUTED   = '#5C5050';
 const SOFT    = '#9A8E8E';
 
 /* ── Animated number counter ──────────────────────────────── */
-function Counter({ to, prefix = '', suffix = '', decimals = 0 }: {
-  to: number; prefix?: string; suffix?: string; decimals?: number;
-}) {
+function Counter({ to, prefix = '', suffix = '', decimals = 0 }) {
   const [val, setVal] = useState(0);
-  const ref = useRef<HTMLSpanElement>(null);
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
 
   useEffect(() => {
@@ -38,12 +39,12 @@ function Counter({ to, prefix = '', suffix = '', decimals = 0 }: {
 
 /* ── Career trajectory showstopper ───────────────────────── */
 const MILESTONES = [
-  { x: 55,  y: 155, year: '2018', co: 'ComplyAdvantage', loc: 'London',       metric: 'Entered B2B SaaS' },
-  { x: 195, y: 128, year: '2019', co: 'W.Media',         loc: 'Singapore',    metric: '$1.5M P&L' },
-  { x: 365, y: 90,  year: '2021', co: 'Microgaming',     loc: 'Singapore',    metric: '$2.5M P&L · Team of 8' },
-  { x: 505, y: 72,  year: '2022', co: 'CloserStill',     loc: 'London & SG',  metric: 'Global Tech Portfolio' },
-  { x: 660, y: 38,  year: '2024', co: 'NEXT.io',         loc: 'Head of Media', metric: '€1.2M/yr built' },
-  { x: 825, y: 12,  year: '2025', co: 'NEXT.io',         loc: 'Comm. Director', metric: '€2.4M pipeline', current: true },
+  { x: 55,  y: 155, year: '2018', co: 'ComplyAdvantage', loc: 'London',      metric: 'Entered B2B SaaS' },
+  { x: 195, y: 128, year: '2019', co: 'W.Media',         loc: 'Singapore',   metric: '$1M+ P&L' },
+  { x: 365, y: 90,  year: '2021', co: 'Microgaming',     loc: 'Singapore',   metric: '$2M+ P&L · Team of 8' },
+  { x: 505, y: 72,  year: '2022', co: 'CloserStill',     loc: 'London & SG', metric: 'Global Tech Portfolio' },
+  { x: 660, y: 38,  year: '2024', co: 'NEXT.io',         loc: 'Head of Media', metric: '€5M+ division' },
+  { x: 825, y: 12,  year: '2026', co: 'NEXT.io / Strait Up', loc: 'Comm. Director', metric: '€2M+ pipeline', current: true },
 ];
 
 // Smooth cubic bezier through milestones
@@ -51,9 +52,9 @@ const LINE = `M 55,155 C 105,148 155,132 195,128 C 265,122 310,95 365,90 C 420,8
 const FILL = `${LINE} L 825,195 L 55,195 Z`;
 
 function CareerChart() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
-  const [hovered, setHovered] = useState<number | null>(null);
+  const [hovered, setHovered] = useState(null);
 
   return (
     <div ref={ref} style={{ background: '#fff', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
@@ -181,9 +182,7 @@ function CareerChart() {
 }
 
 /* ── Stats strip ──────────────────────────────────────────── */
-function StatCard({ value, label, prefix = '', suffix = '', decimals = 0, sub }: {
-  value: number; label: string; prefix?: string; suffix?: string; decimals?: number; sub?: string;
-}) {
+function StatCard({ value, label, prefix = '', suffix = '', decimals = 0, sub }) {
   return (
     <div style={{ flex: 1, padding: '32px 24px', borderRight: `1px solid ${BORDER}`, textAlign: 'center', minWidth: 0 }}>
       <div style={{ fontSize: 26, fontWeight: 800, color: OX, letterSpacing: '-0.02em', lineHeight: 1 }}>
@@ -196,10 +195,8 @@ function StatCard({ value, label, prefix = '', suffix = '', decimals = 0, sub }:
 }
 
 /* ── Revenue growth bar ───────────────────────────────────── */
-function RevenueBar({ label, amount, pct, delay }: {
-  label: string; amount: string; pct: number; delay: number;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
+function RevenueBar({ label, amount, pct, delay }) {
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-20px' });
   return (
     <div ref={ref} style={{ marginBottom: 14 }}>
@@ -220,12 +217,9 @@ function RevenueBar({ label, amount, pct, delay }: {
 }
 
 /* ── Experience role card ─────────────────────────────────── */
-function Role({ company, title, dates, location, context, bullets, isLast = false }: {
-  company: string; title: string; dates: string; location: string;
-  context: string; bullets: string[]; isLast?: boolean;
-}) {
+function Role({ company, title, dates, location, context, bullets, isLast = false }) {
   const [open, setOpen] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
 
   return (
@@ -247,10 +241,10 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
         userSelect: 'none',
       }}
       onMouseEnter={e => {
-        if (!open) (e.currentTarget as HTMLDivElement).style.background = '#FAF6F4';
+        if (!open) e.currentTarget.style.background = '#FAF6F4';
       }}
       onMouseLeave={e => {
-        if (!open) (e.currentTarget as HTMLDivElement).style.background = 'transparent';
+        if (!open) e.currentTarget.style.background = 'transparent';
       }}
     >
       {/* Top row */}
@@ -325,8 +319,8 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
 }
 
 /* ── Sidebar section wrapper ──────────────────────────────── */
-function SideSection({ title, children }: { title: string; children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
+function SideSection({ title, children }) {
+  const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
   return (
     <motion.div
@@ -345,7 +339,7 @@ function SideSection({ title, children }: { title: string; children: React.React
 }
 
 /* ══════════════════════════════════════════════════════════ */
-export default function InteractiveCV() {
+export default function App() {
   return (
     <div style={{ minHeight: '100vh', background: BG, color: TEXT, fontFamily: "'Inter', sans-serif" }}>
 
@@ -368,13 +362,13 @@ export default function InteractiveCV() {
               transition={{ duration: 0.55, delay: 0.08 }}
             >
               <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: OX, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 5 }}>
-                <MapPin size={10} /> Relocating to Singapore · COMPASS Eligible
+                <MapPin size={10} /> Relocating to Singapore · Prev EP Holder · COMPASS Eligible
               </div>
               <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(2.8rem, 6.5vw, 5rem)', fontWeight: 900, textTransform: 'uppercase', lineHeight: 0.9, letterSpacing: '-0.01em', marginBottom: 14 }}>
                 Stuart <span style={{ color: OX }}>Crowley</span>
               </h1>
               <p style={{ fontSize: 15, color: MUTED, marginBottom: 16, fontWeight: 300 }}>
-                Commercial Director <span style={{ color: TEXT, fontWeight: 600 }}>· B2B SaaS · Tech · Media</span>
+                Commercial Leadership / Revenue Infrastructure <span style={{ color: TEXT, fontWeight: 600 }}>· GTM B2B SaaS & Tech</span>
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 28px' }}>
                 <a href="mailto:scrowley194@gmail.com" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 13, color: MUTED, textDecoration: 'none' }}>
@@ -395,11 +389,11 @@ export default function InteractiveCV() {
       {/* ── STATS STRIP ── */}
       <div style={{ borderBottom: `1px solid ${BORDER}`, background: '#FDFAF7' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 56px', display: 'flex' }}>
-          <StatCard value={500}  prefix="€" suffix="K+/mo" label="Affiliate Revenue"  sub="net-new channel" />
-          <StatCard value={2.4}  prefix="€" suffix="M+"    label="Active Pipeline"    sub="HubSpot, overhauled" decimals={1} />
-          <StatCard value={3}    suffix="×"                label="Media Revenue"      sub="18 months" />
-          <StatCard value={80}   suffix="%"                label="Net Retention"      sub="company-wide NRR" />
-          <StatCard value={100}  prefix="€" suffix="K+ ACV" label="Contract Value"    sub="up from €60K" />
+          <StatCard value={5}  prefix="€" suffix="M+" label="Annualised Revenue" sub="Media division impact" />
+          <StatCard value={2}  prefix="€" suffix="M+" label="Active Pipeline Built" sub="HubSpot, overhauled" />
+          <StatCard value={3}  suffix="×"           label="Media Division Growth" sub="Within 18 months" />
+          <StatCard value={65} suffix="%+"          label="ACV Growth"            sub="Pricing strategy overhaul" />
+          <StatCard value={8}  suffix="+ yrs"       label="Commercial Leadership" sub="B2B SaaS & Media" />
           <div style={{ flex: 1, padding: '32px 24px', textAlign: 'center', minWidth: 0 }}>
             <div style={{ fontSize: 26, fontWeight: 800, color: OX, lineHeight: 1 }}>APAC</div>
             <div style={{ fontSize: 11, color: MUTED, marginTop: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Regional Base</div>
@@ -426,58 +420,57 @@ export default function InteractiveCV() {
           <p style={{ fontSize: 12, color: SOFT, marginBottom: 24, paddingLeft: 30 }}>Click any role to reveal achievements</p>
 
           <div style={{ marginLeft: -20 }}>
-            <Role company="Strait Up Growth" title="Founder" dates="2026 – Present" location="Singapore (Remote)"
-              context="Fractional commercial consultancy for scale-ups and lean teams. Embeds as the operator big consultancies can't be — fixing GTM systems, AI workflows, and revenue architecture without layers of junior hand-off."
+            <Role company="Strait Up Growth" title="Founder" dates="2026 – Present" location="Singapore"
+              context="Boutique consultancy I founded and run alongside my NEXT.io role. Embedded operator model serving lean teams across APAC and EMEA."
               bullets={[
-                'Delivered 30% operational efficiency improvement at COL Web Pte Ltd within four months through AI workflow redesign and process automation.',
-                'Fractional Commercial Director for NEXT.io — overhauled HubSpot pipeline, rebuilt pricing governance, and architected the prediction markets vertical GTM.',
-                'AI Fluency & Systems: designed end-to-end no-code / AI stacks for clients including Synology and English UK, eliminating manual bottlenecks and compressing sales cycles.',
-                'Client roster spans B2B SaaS, iGaming, and Tech Media: COL, NEXT.io, Synology, English UK, W.Media, ComplyAdvantage, Microgaming Asia.',
-                'Three service lines: Fractional Commercial Leadership · AI Workflow Efficiency · Growth & GTM Expansion.',
+                'Fractional Commercial Leadership: Embeds as a hands-on commercial operator, building pipeline architecture, forecasting frameworks, and reporting infrastructure.',
+                'AI Fluency & Workflow Efficiency: Builds practical AI adoption inside teams across use cases, prompting habits, shared libraries, and automation workflows.',
+                'Growth, GTM & Market Expansion: Designs and executes GTM architecture for new ICPs, stalled channels, and cross-border moves.',
+                'Client Impact: Delivered 30% operational efficiency uplift within 4 months for COL Web Pte Ltd. Engagement portfolio spans iGaming, SaaS, Tech, and Media.',
               ]}
             />
             <Role company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
-              context="Promoted to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, and CRM Specialist."
+              context="Promoted from Head of Media to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, and CRM Specialist."
               bullets={[
-                'ACV & Margin Growth: Drove ACV from €60K to over €100K by overhauling pricing strategies. Introduced tiered discount authorities, driving an estimated 18% blended margin uplift.',
-                'Pipeline Forecasting: Overhauled HubSpot commercial intelligence across a €2.4M+ active pipeline. Improved coverage ratios and forecasting accuracy.',
-                'Marketing Restructure: Rebuilt marketing into a four-pillar model. Recruited Director of Marketing, improving speed-to-lead and reducing cost-per-MQL.',
-                "New Vertical Launch: Architected the company's first prediction markets vertical in New York — full GTM strategy, two-layer revenue forecasting model, competitor benchmarking.",
+                'ACV & Margin Growth: Increased average contract value by 65%+ by overhauling pricing strategy and introducing tiered discount authorities. Delivered double-digit margin uplift.',
+                'Pipeline Forecasting & CRM Rigour: Overhauled HubSpot commercial intelligence across a €2M+ active pipeline. Improved coverage ratios and forecasting accuracy.',
+                'Marketing Restructure: Rebuilt marketing into a four-pillar model covering Brand, Events, Media, and Commercial. Recruited Director of Marketing and improved speed-to-lead.',
+                'New Vertical Launch: Architected GTM strategy for a new regulated-market vertical, including revenue modelling, competitor benchmarking, positioning, and launch planning.',
               ]}
             />
             <Role company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
-              context="Recruited to build the Media division entirely from scratch. Transformed it into the company's most profitable business unit within 18 months."
+              context="Recruited to build the Media division from scratch as a P&L-owned business unit. Took it from zero to the company's most profitable division in 18 months."
               bullets={[
-                'High-Margin Affiliate Engine: Scaled SEO-driven affiliate module to €400K–€500K in monthly revenue using domain authority and premium backlink strategy.',
-                'Recurring Revenue Products: Launched Research & Insights division, securing enterprise deals at €80K–€100K+ and contributing to 80% NRR company-wide.',
-                'Revenue Scale: Grew media division from ~€400K to €1.2M (3× growth) within 18 months across podcast, video, and display advertising.',
+                'P&L from Zero: Built and ran a new P&L from launch, taking the division 3x in 18 months to €5M+ annualised revenue and the company\'s most profitable business unit.',
+                'High-Margin Affiliate Engine: Drove the majority of revenue through an SEO-driven affiliate channel leveraging domain authority and premium backlinks.',
+                'Enterprise Product Launch: Spun up the Research & Insights division as a new high-margin revenue line, generating six-figure year-one revenue and adding a recurring layer to the business.',
               ]}
             />
-            <Role company="CloserStill Media" title="Global Marketing Manager · Editor of Techerati" dates="Aug 2022 – May 2024" location="London & Singapore"
+            <Role company="CloserStill Media" title="Global Marketing Manager / Editor of Techerati" dates="Aug 2022 – May 2024" location="London & Singapore"
               context="Managed a team of 6, leading content marketing and demand generation for the Tech Portfolio. Strategic bridge between European and APAC markets."
               bullets={[
-                'Delivered culturally adapted GTM strategies bridging EMEA and APAC across AI, SaaS, and Cybersecurity verticals.',
-                'Launched multi-market B2B content partnerships. Achieved 120% website traffic growth and 135% LinkedIn follower uplift.',
+                'Delivered culturally adapted GTM strategies bridging EMEA and APAC audiences across AI, SaaS, and Cybersecurity verticals.',
+                'Launched multi-market B2B content partnerships generating high-quality MQLs. Achieved 120% website traffic growth and 135% Linkedin follower uplift.',
               ]}
             />
             <Role company="Microgaming" title="Head of Brand & Content (APAC)" dates="Mar 2021 – Aug 2022" location="Singapore"
-              context="Managed an APAC P&L of ~$2.5M and a cross-functional team of 8, driving brand strategy and creative direction across the Asian market."
+              context="Managed a $2M+ APAC P&L and a cross-functional team of 8, driving end-to-end brand strategy and creative direction across the Asian market."
               bullets={[
-                'Directed digital transformation projects across six companies delivering a 35% uplift in regional conversion rates.',
+                'Directed digital transformation projects across six companies, delivering measurable visibility gains and a 35% uplift in regional conversion rates across APAC.',
                 'Established scalable content ecosystems and brand playbooks across B2B2C channels.',
               ]}
             />
             <Role company="W.Media" title="Head of Production & Editorial (APAC)" dates="Feb 2019 – Mar 2021" location="Singapore"
-              context="Reported directly to CEO. Managed an APAC P&L of ~$1.5M, building a high-performing team of 8."
+              context="Reported directly to the CEO. Managed a $1M+ APAC P&L, hiring 4 key regional staff to build a high-performing team of 8."
               bullets={[
-                'Strengthened B2B partnerships with Digital Realty, Equinix, and Keppel, expanding APAC market share.',
-                'Spearheaded pivot to digital-first models during the pandemic, delivering 300%+ growth in web traffic.',
+                'Spearheaded the pivot to digital-first models during the pandemic, delivering 300%+ growth in web traffic through regional virtual summits.',
+                'Strengthened B2B partnerships with Digital Realty, Equinix, and Keppel, securing renewed sponsorships and expanding APAC market share.',
               ]}
             />
             <Role company="ComplyAdvantage" title="Marketing Executive (EMEA)" dates="May 2018 – Feb 2019" location="London"
               context=""
               bullets={[
-                'Designed unified global social strategy for this RegTech SaaS scale-up, introducing company-wide social selling enablement.',
+                'Designed a unified global social strategy for this RegTech SaaS scale-up, introducing company-wide social selling enablement across Linkedin and Twitter.',
               ]}
               isLast
             />
@@ -489,24 +482,25 @@ export default function InteractiveCV() {
 
           <SideSection title="Profile">
             <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.75 }}>
-              <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building net-new revenue engines across B2B SaaS, Technology, and Media in APAC, EMEA, and LATAM.</p>
-              <p style={{ marginBottom: 12 }}>Built NEXT.io's first formal commercial and media departments from scratch — driving ACV from €60K to €100K+ and scaling affiliate revenue to €500K+ MRR.</p>
-              <p>Lived and worked in Singapore 2019–2022. Actively planning a permanent return.</p>
+              <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building revenue infrastructure and GTM systems across B2B SaaS, Tech, and Media in APAC, EMEA, and LATAM.</p>
+              <p style={{ marginBottom: 12 }}>Known for building first formal commercial departments from scratch, launching new revenue verticals, scaling ACV through pricing discipline, and replacing developer bottlenecks with operator-built systems on HubSpot, Airtable, and Make.com.</p>
+              <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue.</p>
+              <p>Lived in Singapore from 2019 to 2022 across two senior APAC roles, managing regional P&Ls of $1M to $2M+. Actively planning a permanent return for a senior commercial leadership role.</p>
             </div>
           </SideSection>
 
           <SideSection title="Media Division Growth">
-            <RevenueBar label="Launch baseline" amount="€400K/mo" pct={33} delay={0.1} />
-            <RevenueBar label="Month 9"         amount="€800K/mo" pct={66} delay={0.25} />
-            <RevenueBar label="Month 18"        amount="€1.2M/mo" pct={100} delay={0.4} />
-            <p style={{ fontSize: 11, color: SOFT, marginTop: 6, fontStyle: 'italic' }}>3× baseline revenue in 18 months at NEXT.io</p>
+            <RevenueBar label="Launch baseline" amount="€0" pct={5} delay={0.1} />
+            <RevenueBar label="Month 9"         amount="€2.5M ARR" pct={50} delay={0.25} />
+            <RevenueBar label="Month 18"        amount="€5M+ ARR" pct={100} delay={0.4} />
+            <p style={{ fontSize: 11, color: SOFT, marginTop: 6, fontStyle: 'italic' }}>Scaled from scratch to €5M+ annualised in 18 months</p>
           </SideSection>
 
           <SideSection title="ACV Growth">
             <div style={{ display: 'flex', borderRadius: 8, overflow: 'hidden', border: `1px solid ${BORDER}` }}>
               {[
-                { label: 'Before', value: '€60K', note: 'inherited' },
-                { label: 'After',  value: '€100K+', note: '+67%', hl: true },
+                { label: 'Before', value: 'Baseline', note: 'informal pricing' },
+                { label: 'After',  value: '+65%', note: 'governance added', hl: true },
               ].map(({ label, value, note, hl }) => (
                 <div key={label} style={{ flex: 1, padding: '16px 14px', background: hl ? OX : '#FDF9F6', textAlign: 'center', borderRight: hl ? 'none' : `1px solid ${BORDER}` }}>
                   <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: hl ? 'rgba(255,255,255,0.65)' : SOFT, marginBottom: 4 }}>{label}</div>
@@ -522,11 +516,11 @@ export default function InteractiveCV() {
               {[
                 'Commercial Strategy & GTM Architecture',
                 'SaaS & Media Pricing Governance',
-                'Pipeline Forecasting & CRM Operations',
-                'Marketing Department Building',
-                'SEO/Affiliate Revenue Scaling',
-                'APAC Regional Leadership',
-                'AI & No-Code Systems Architecture',
+                'Sales & Pipeline Ops (CRM modelling)',
+                'Marketing & Demand Gen',
+                'AI & Systems Architecture (No-code)',
+                'Regional Leadership (APAC)',
+                'Sector Expertise: SaaS, Tech, iGaming',
               ].map(c => (
                 <li key={c} style={{ display: 'flex', alignItems: 'flex-start', gap: 9, fontSize: 13, color: '#3A3030', lineHeight: 1.55 }}>
                   <span style={{ width: 5, height: 5, minWidth: 5, borderRadius: '50%', background: OX, marginTop: '0.45em', flexShrink: 0 }} />
@@ -536,17 +530,23 @@ export default function InteractiveCV() {
             </ul>
           </SideSection>
 
-          <SideSection title="Technical Skills">
+          <SideSection title="Technical Stack">
             {[
-              { label: 'CRM & Revenue', value: 'HubSpot (Advanced), Salesforce' },
+              { label: 'CRM & Revenue Ops', value: 'HubSpot (Advanced), Salesforce, Pipeline Architecture, Forecasting Models' },
               { label: 'No-Code & Automation', value: 'Make.com, Softr, Airtable, Monday.com' },
-              { label: 'AI & Intelligence', value: 'Claude, Gemini, ChatGPT' },
+              { label: 'AI & Intelligence', value: 'Claude, Gemini, ChatGPT, Prompt Engineering' },
             ].map(s => (
               <div key={s.label} style={{ fontSize: 13, lineHeight: 1.6, marginBottom: 8 }}>
                 <span style={{ fontWeight: 600, color: OX }}>{s.label}: </span>
                 <span style={{ color: '#3A3030' }}>{s.value}</span>
               </div>
             ))}
+          </SideSection>
+
+          <SideSection title="Singapore Integration">
+            <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.65 }}>
+              <p>Previously held an Employment Pass (2020) and fully eligible under the MOM COMPASS framework. Built a deep professional network across APAC's tech, SaaS, and digital media ecosystems.</p>
+            </div>
           </SideSection>
 
           <SideSection title="Education">
