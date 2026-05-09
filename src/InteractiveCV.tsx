@@ -613,7 +613,7 @@ function RevenueBar({ label, amount, pct, delay }) {
 }
 
 /* ── Experience role card ─────────────────────────────────── */
-function Role({ company, title, dates, location, context, bullets, isLast = false, isMobile, defaultOpen = false, logo }) {
+function Role({ company, title, dates, location, context, bullets, isLast = false, isMobile, defaultOpen = false, logo, hideCompanyName = false }) {
   const [open, setOpen] = useState(defaultOpen);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
@@ -627,9 +627,9 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
       onMouseLeave={e => { if (!open) e.currentTarget.style.background = 'transparent'; }}
     >
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 4 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          {logo && <img src={logo} alt={`${company} logo`} style={{ width: 22, height: 22, borderRadius: 4, objectFit: 'contain' }} />}
-          <h4 style={{ fontSize: 17, fontWeight: 700, color: TEXT, letterSpacing: '-0.01em', lineHeight: 1.2 }}>{company}</h4>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+          {logo && <img src={logo} alt={`${company} logo`} style={{ height: 38, width: 'auto', maxWidth: 160, objectFit: 'contain' }} />}
+          {!hideCompanyName && <h4 style={{ fontSize: 17, fontWeight: 700, color: TEXT, letterSpacing: '-0.01em', lineHeight: 1.2 }}>{company}</h4>}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <span style={{ fontSize: 11.5, color: SOFT, fontWeight: 500 }}>{dates}</span>
@@ -833,11 +833,12 @@ export default function App() {
                 defaultOpen={true} 
                 isMobile={isMobile} 
                 company="Strait Up Growth" 
+                hideCompanyName={true}
                 logo="https://straitupgrowth.com/logo.png" 
                 title="Founder" 
                 dates="2026 – Present" 
                 location="Singapore"
-                context="Boutique consultancy I founded and run alongside my NEXT.io role. Embedded operator model serving lean teams across APAC and EMEA."
+                context="Strait Up Growth is a boutique consultancy I founded and run alongside my NEXT.io role. Embedded operator model serving lean teams across APAC and EMEA."
                 bullets={[
                   'Fractional Commercial Leadership: Embeds as a hands-on commercial operator, building pipeline architecture, forecasting frameworks, and reporting infrastructure.',
                   'AI Fluency & Workflow Efficiency: Builds practical AI adoption inside teams across use cases, prompting habits, shared libraries, and automation workflows.',
