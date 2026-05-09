@@ -62,17 +62,28 @@ const TEXT    = '#0A0A0A';
 const MUTED   = '#5C5050';
 const SOFT    = '#9A8E8E';
 
+/* ── Mobile Detection Hook ────────────────────────────────── */
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 820);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+  return isMobile;
+}
+
 /* ── Geographic Footprint Map ───────────────────────────── */
 const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
 const COVERED = new Set([826, 470, 840, 702, 158, 276, 250, 724]);
 
 function WorldMap() {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const [active, setActive] = useState(null);
 
-  // We map the SVG natively using framework-agnostic libraries
-  // to avoid the multiple-React-instance errors from react-simple-maps in this preview sandbox.
   const [mapState, setMapState] = useState({ status: 'loading', data: null });
 
   useEffect(() => {
@@ -107,7 +118,6 @@ function WorldMap() {
     }
 
     if (mapState.status === 'error') {
-      // Abstract fallback map if CDN imports are blocked
       return (
         <svg viewBox="0 0 880 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
           <defs>
@@ -132,7 +142,6 @@ function WorldMap() {
 
     const { d3, features } = mapState.data;
     
-    // This perfectly mirrors the react-simple-maps projection config
     const projection = d3.geoNaturalEarth1()
       .scale(155)
       .center([20, 15])
@@ -174,7 +183,6 @@ function WorldMap() {
           
           return (
             <g key={loc.name} transform={`translate(${x}, ${y})`}>
-              {/* Pulse ring */}
               <motion.circle
                 r={0}
                 fill="none"
@@ -182,19 +190,9 @@ function WorldMap() {
                 strokeWidth={1.5}
                 strokeOpacity={0.6}
                 initial={{ r: 0, opacity: 0 }}
-                animate={inView ? {
-                  r: [5, 14],
-                  opacity: [0.7, 0],
-                } : {}}
-                transition={{
-                  duration: 1.8,
-                  repeat: Infinity,
-                  ease: 'easeOut',
-                  delay: i * 0.35,
-                  repeatDelay: 0.5,
-                }}
+                animate={inView ? { r: [5, 14], opacity: [0.7, 0] } : {}}
+                transition={{ duration: 1.8, repeat: Infinity, ease: 'easeOut', delay: i * 0.35, repeatDelay: 0.5 }}
               />
-              {/* Dot */}
               <motion.circle
                 r={5}
                 fill={isActive ? OX : '#fff'}
@@ -216,10 +214,8 @@ function WorldMap() {
 
   return (
     <div ref={ref} style={{ background: '#FDFAF7', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '52px 56px 48px' }}>
-
-        {/* Section header */}
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 24px' : '52px 56px 48px' }}>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', marginBottom: 32, gap: 16 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <div style={{ width: 20, height: 2, background: OX }} />
@@ -227,13 +223,11 @@ function WorldMap() {
                 Geographic Footprint
               </h3>
             </div>
-            <p style={{ fontSize: 13, color: MUTED, paddingLeft: 30 }}>
+            <p style={{ fontSize: 13, color: MUTED, paddingLeft: 30, margin: 0 }}>
               Hover a pin to explore — UK · Malta · USA · Singapore · Taiwan · Germany · France · Spain
             </p>
           </div>
-
-          {/* Country chips */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, justifyContent: isMobile ? 'flex-start' : 'flex-end' }}>
             {LOCATIONS.map((loc, i) => (
               <button
                 key={loc.name}
@@ -258,16 +252,11 @@ function WorldMap() {
           </div>
         </div>
 
-        {/* Map + detail panel */}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: 32, alignItems: 'start' }}>
-
-          {/* Map Container */}
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 260px', gap: isMobile ? 24 : 32, alignItems: 'start' }}>
           <div style={{ borderRadius: 12, overflow: 'hidden', border: `1px solid ${BORDER}`, background: '#EDE8E2', position: 'relative' }}>
             {renderMap()}
           </div>
-
-          {/* Detail panel */}
-          <div style={{ minHeight: 220 }}>
+          <div style={{ minHeight: isMobile ? 'auto' : 220 }}>
             <AnimatePresence mode="wait">
               {active !== null ? (
                 <motion.div
@@ -313,10 +302,10 @@ function WorldMap() {
                     border: `1px dashed ${BORDER}`,
                     borderRadius: 10,
                     padding: 24,
-                    minHeight: 160,
+                    minHeight: isMobile ? 100 : 160,
                   }}
                 >
-                  <p style={{ fontSize: 13, color: '#B0A8A4', textAlign: 'center', lineHeight: 1.6 }}>
+                  <p style={{ fontSize: 13, color: '#B0A8A4', textAlign: 'center', lineHeight: 1.6, margin: 0 }}>
                     Hover a pin or country<br />to see details
                   </p>
                 </motion.div>
@@ -361,133 +350,111 @@ const MILESTONES = [
   { x: 825, y: 12,  year: '2026', co: 'NEXT.io / Strait Up', loc: 'Comm. Director', metric: '€7.7M+ pipeline', current: true },
 ];
 
-// Smooth cubic bezier through milestones
 const LINE = `M 55,155 C 105,148 155,132 195,128 C 265,122 310,95 365,90 C 420,85 465,75 505,72 C 560,67 610,44 660,38 C 720,28 775,14 825,12`;
 const FILL = `${LINE} L 825,195 L 55,195 Z`;
 
 function CareerChart() {
+  const isMobile = useIsMobile();
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
   const [hovered, setHovered] = useState(null);
 
   return (
     <div ref={ref} style={{ background: '#fff', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '52px 48px 40px' }}>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 32 }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 24px' : '52px 48px 40px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: isMobile ? 24 : 32 }}>
           <div style={{ width: 24, height: 2, background: OX }} />
           <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>
             Career Trajectory
           </h3>
         </div>
 
-        <div style={{ position: 'relative' }}>
-          <svg viewBox="0 0 880 200" style={{ width: '100%', overflow: 'visible' }}>
-            <defs>
-              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={OX} stopOpacity="0.12" />
-                <stop offset="100%" stopColor={OX} stopOpacity="0.01" />
-              </linearGradient>
-            </defs>
+        {/* Mobile Swipe Container */}
+        <div style={{ overflowX: isMobile ? 'auto' : 'visible', margin: isMobile ? '0 -24px' : 0, padding: isMobile ? '0 24px 16px' : 0 }}>
+          <div style={{ position: 'relative', minWidth: isMobile ? 800 : 'auto' }}>
+            <svg viewBox="0 0 880 200" style={{ width: '100%', overflow: 'visible' }}>
+              <defs>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={OX} stopOpacity="0.12" />
+                  <stop offset="100%" stopColor={OX} stopOpacity="0.01" />
+                </linearGradient>
+              </defs>
+              <line x1="40" y1="195" x2="860" y2="195" stroke={BORDER} strokeWidth="1" />
+              <motion.path
+                d={FILL}
+                fill="url(#areaGrad)"
+                initial={{ opacity: 0 }}
+                animate={inView ? { opacity: 1 } : {}}
+                transition={{ duration: 0.6, delay: 1.2 }}
+              />
+              <motion.path
+                d={LINE}
+                fill="none"
+                stroke={OX}
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                initial={{ pathLength: 0 }}
+                animate={inView ? { pathLength: 1 } : {}}
+                transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1] }}
+              />
+              {MILESTONES.map((m, i) => (
+                <g key={i} style={{ cursor: 'pointer' }} onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}>
+                  <motion.line
+                    x1={m.x} y1={m.y} x2={m.x} y2={195}
+                    stroke={BORDER} strokeWidth="1" strokeDasharray="3 3"
+                    initial={{ opacity: 0 }}
+                    animate={inView ? { opacity: 1 } : {}}
+                    transition={{ delay: 0.4 + i * 0.22 }}
+                  />
+                  <motion.circle cx={m.x} cy={m.y} r={12} fill={OX} fillOpacity={hovered === i ? 0.12 : 0} />
+                  <motion.circle
+                    cx={m.x} cy={m.y} r={m.current ? 7 : 5}
+                    fill={m.current ? OX : '#fff'}
+                    stroke={OX}
+                    strokeWidth={m.current ? 0 : 2}
+                    initial={{ scale: 0 }}
+                    animate={inView ? { scale: 1 } : {}}
+                    transition={{ delay: 0.5 + i * 0.22, type: 'spring', stiffness: 300 }}
+                    style={{ transformOrigin: `${m.x}px ${m.y}px` }}
+                  />
+                </g>
+              ))}
+            </svg>
 
-            {/* Axis line */}
-            <line x1="40" y1="195" x2="860" y2="195" stroke={BORDER} strokeWidth="1" />
-
-            {/* Area fill */}
-            <motion.path
-              d={FILL}
-              fill="url(#areaGrad)"
-              initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
-              transition={{ duration: 0.6, delay: 1.2 }}
-            />
-
-            {/* Main line — draws itself */}
-            <motion.path
-              d={LINE}
-              fill="none"
-              stroke={OX}
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              initial={{ pathLength: 0 }}
-              animate={inView ? { pathLength: 1 } : {}}
-              transition={{ duration: 1.8, ease: [0.4, 0, 0.2, 1] }}
-            />
-
-            {/* Milestone dots */}
-            {MILESTONES.map((m, i) => (
-              <g key={i} style={{ cursor: 'pointer' }} onMouseEnter={() => setHovered(i)} onMouseLeave={() => setHovered(null)}>
-                {/* Drop line */}
-                <motion.line
-                  x1={m.x} y1={m.y} x2={m.x} y2={195}
-                  stroke={BORDER} strokeWidth="1" strokeDasharray="3 3"
-                  initial={{ opacity: 0 }}
-                  animate={inView ? { opacity: 1 } : {}}
-                  transition={{ delay: 0.4 + i * 0.22 }}
-                />
-                {/* Outer ring on hover */}
-                <motion.circle cx={m.x} cy={m.y} r={12} fill={OX} fillOpacity={hovered === i ? 0.12 : 0} />
-                {/* Dot */}
-                <motion.circle
-                  cx={m.x} cy={m.y} r={m.current ? 7 : 5}
-                  fill={m.current ? OX : '#fff'}
-                  stroke={OX}
-                  strokeWidth={m.current ? 0 : 2}
-                  initial={{ scale: 0 }}
-                  animate={inView ? { scale: 1 } : {}}
-                  transition={{ delay: 0.5 + i * 0.22, type: 'spring', stiffness: 300 }}
-                  style={{ transformOrigin: `${m.x}px ${m.y}px` }}
-                />
-              </g>
-            ))}
-          </svg>
-
-          {/* Labels below axis */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10, paddingLeft: 0 }}>
-            {MILESTONES.map((m, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 6 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ delay: 0.6 + i * 0.22 }}
-                onMouseEnter={() => setHovered(i)}
-                onMouseLeave={() => setHovered(null)}
-                style={{
-                  textAlign: 'center',
-                  cursor: 'default',
-                  flex: 1,
-                  padding: '0 4px',
-                  transition: 'all 0.2s',
-                }}
-              >
-                <div style={{ fontSize: 11, fontWeight: 700, color: hovered === i ? OX : TEXT }}>{m.year}</div>
-                <div style={{ fontSize: 10.5, fontWeight: 600, color: hovered === i ? OX : MUTED, marginTop: 1 }}>{m.co}</div>
-                <div style={{ fontSize: 10, color: SOFT, marginTop: 1 }}>{m.loc}</div>
-                <AnimatePresence>
-                  {hovered === i && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -4, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: -4, scale: 0.95 }}
-                      transition={{ duration: 0.15 }}
-                      style={{
-                        marginTop: 6,
-                        background: OX,
-                        color: '#fff',
-                        fontSize: 10,
-                        fontWeight: 600,
-                        padding: '3px 8px',
-                        borderRadius: 4,
-                        whiteSpace: 'nowrap',
-                        display: 'inline-block',
-                      }}
-                    >
-                      {m.metric}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </motion.div>
-            ))}
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 10 }}>
+              {MILESTONES.map((m, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ delay: 0.6 + i * 0.22 }}
+                  onMouseEnter={() => setHovered(i)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{ textAlign: 'center', cursor: 'default', flex: 1, padding: '0 4px', transition: 'all 0.2s' }}
+                >
+                  <div style={{ fontSize: 11, fontWeight: 700, color: hovered === i ? OX : TEXT }}>{m.year}</div>
+                  <div style={{ fontSize: 10.5, fontWeight: 600, color: hovered === i ? OX : MUTED, marginTop: 1 }}>{m.co}</div>
+                  <div style={{ fontSize: 10, color: SOFT, marginTop: 1 }}>{m.loc}</div>
+                  <AnimatePresence>
+                    {hovered === i && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -4, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -4, scale: 0.95 }}
+                        transition={{ duration: 0.15 }}
+                        style={{
+                          marginTop: 6, background: OX, color: '#fff', fontSize: 10,
+                          fontWeight: 600, padding: '3px 8px', borderRadius: 4,
+                          whiteSpace: 'nowrap', display: 'inline-block',
+                        }}
+                      >
+                        {m.metric}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
@@ -496,10 +463,20 @@ function CareerChart() {
 }
 
 /* ── Stats strip ──────────────────────────────────────────── */
-function StatCard({ value, label, prefix = '', suffix = '', decimals = 0, sub }) {
+function StatCard({ value, label, prefix = '', suffix = '', decimals = 0, sub, index, isMobile }) {
+  const isRightBorder = isMobile ? (index % 2 === 0) : (index < 5);
+  const isBottomBorder = isMobile ? (index < 4) : false;
+
   return (
-    <div style={{ flex: 1, padding: '32px 24px', borderRight: `1px solid ${BORDER}`, textAlign: 'center', minWidth: 0 }}>
-      <div style={{ fontSize: 26, fontWeight: 800, color: OX, letterSpacing: '-0.02em', lineHeight: 1 }}>
+    <div style={{ 
+      flex: 1, 
+      padding: isMobile ? '24px 16px' : '32px 24px', 
+      borderRight: isRightBorder ? `1px solid ${BORDER}` : 'none',
+      borderBottom: isBottomBorder ? `1px solid ${BORDER}` : 'none',
+      textAlign: 'center', 
+      minWidth: 0 
+    }}>
+      <div style={{ fontSize: isMobile ? 24 : 26, fontWeight: 800, color: OX, letterSpacing: '-0.02em', lineHeight: 1 }}>
         <Counter to={value} prefix={prefix} suffix={suffix} decimals={decimals} />
       </div>
       <div style={{ fontSize: 11, color: MUTED, marginTop: 8, fontWeight: 600, lineHeight: 1.3, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
@@ -531,7 +508,7 @@ function RevenueBar({ label, amount, pct, delay }) {
 }
 
 /* ── Experience role card ─────────────────────────────────── */
-function Role({ company, title, dates, location, context, bullets, isLast = false }) {
+function Role({ company, title, dates, location, context, bullets, isLast = false, isMobile }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
@@ -545,7 +522,7 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
       onClick={() => setOpen(o => !o)}
       style={{
         cursor: 'pointer',
-        padding: '24px 20px',
+        padding: isMobile ? '20px 16px' : '24px 20px',
         marginBottom: isLast ? 0 : 4,
         borderRadius: 8,
         border: `1px solid ${open ? OX_SOFT : 'transparent'}`,
@@ -554,15 +531,10 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
         transition: 'all 0.2s ease',
         userSelect: 'none',
       }}
-      onMouseEnter={e => {
-        if (!open) e.currentTarget.style.background = '#FAF6F4';
-      }}
-      onMouseLeave={e => {
-        if (!open) e.currentTarget.style.background = 'transparent';
-      }}
+      onMouseEnter={e => { if (!open) e.currentTarget.style.background = '#FAF6F4'; }}
+      onMouseLeave={e => { if (!open) e.currentTarget.style.background = 'transparent'; }}
     >
-      {/* Top row */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 12, marginBottom: 4 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 4 }}>
         <h4 style={{ fontSize: 17, fontWeight: 700, color: TEXT, letterSpacing: '-0.01em', lineHeight: 1.2 }}>{company}</h4>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <span style={{ fontSize: 11.5, color: SOFT, fontWeight: 500 }}>{dates}</span>
@@ -572,36 +544,23 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
         </div>
       </div>
 
-      {/* Title + location */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: context ? 10 : 0 }}>
+      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', gap: isMobile ? 4 : 8, marginBottom: context ? 10 : 0 }}>
         <span style={{ fontSize: 13.5, fontWeight: 600, color: OX }}>{title}</span>
-        {location && <>
-          <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#C8BFB5', display: 'inline-block', flexShrink: 0 }} />
-          <span style={{ fontSize: 12, color: MUTED }}>{location}</span>
-        </>}
+        {location && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            {!isMobile && <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#C8BFB5', display: 'inline-block', flexShrink: 0 }} />}
+            <span style={{ fontSize: 12, color: MUTED }}>{location}</span>
+          </div>
+        )}
       </div>
 
-      {/* Context */}
-      {context && (
-        <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.65, fontStyle: 'italic', margin: 0 }}>{context}</p>
-      )}
+      {context && <p style={{ fontSize: 13, color: MUTED, lineHeight: 1.65, fontStyle: 'italic', margin: 0, marginTop: isMobile ? 8 : 0 }}>{context}</p>}
 
-      {/* Expand hint */}
-      <div style={{
-        marginTop: 10,
-        fontSize: 11.5,
-        fontWeight: 600,
-        color: open ? OX : SOFT,
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 4,
-        transition: 'color 0.2s',
-      }}>
+      <div style={{ marginTop: 10, fontSize: 11.5, fontWeight: 600, color: open ? OX : SOFT, display: 'inline-flex', alignItems: 'center', gap: 4, transition: 'color 0.2s' }}>
         {open ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
         {open ? 'Hide achievements' : 'See achievements'}
       </div>
 
-      {/* Expandable bullets */}
       <AnimatePresence initial={false}>
         {open && (
           <motion.div
@@ -613,13 +572,7 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
           >
             <ul style={{ listStyle: 'none', padding: 0, marginTop: 14, display: 'flex', flexDirection: 'column', gap: 8 }}>
               {bullets.map((b, i) => (
-                <motion.li
-                  key={i}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.06 }}
-                  style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13.5, color: '#2A2020', lineHeight: 1.65 }}
-                >
+                <motion.li key={i} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: i * 0.06 }} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13.5, color: '#2A2020', lineHeight: 1.65 }}>
                   <span style={{ width: 5, height: 5, minWidth: 5, borderRadius: '50%', background: OX, marginTop: '0.5em', flexShrink: 0 }} />
                   <span>{b}</span>
                 </motion.li>
@@ -637,12 +590,7 @@ function SideSection({ title, children }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 12 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.45 }}
-    >
+    <motion.div ref={ref} initial={{ opacity: 0, y: 12 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.45 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
         <div style={{ width: 20, height: 2, background: OX }} />
         <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>{title}</h3>
@@ -654,41 +602,35 @@ function SideSection({ title, children }) {
 
 /* ══════════════════════════════════════════════════════════ */
 export default function App() {
+  const isMobile = useIsMobile();
+
   return (
     <div style={{ minHeight: '100vh', background: BG, color: TEXT, fontFamily: "'Inter', sans-serif" }}>
 
       {/* ── HEADER ── */}
       <header style={{ borderBottom: `2.5px solid ${OX}`, background: BG }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '48px 56px' }}>
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: 36 }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 24px' : '48px 56px' }}>
+          <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'center' : 'flex-end', gap: isMobile ? 24 : 36, textAlign: isMobile ? 'center' : 'left' }}>
             <motion.img
               src={HEADSHOT}
               alt="Stuart Crowley"
-              // Fallback if local image doesn't load in preview environment
-              onError={(e) => { 
-                e.currentTarget.src = "https://ui-avatars.com/api/?name=Stuart+Crowley&background=7A2535&color=fff&size=256&font-size=0.33&bold=true"; 
-              }}
+              onError={(e) => { e.currentTarget.src = "https://ui-avatars.com/api/?name=Stuart+Crowley&background=7A2535&color=fff&size=256&font-size=0.33&bold=true"; }}
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.55 }}
               style={{ width: 112, height: 112, borderRadius: 10, objectFit: 'cover', objectPosition: 'top', flexShrink: 0, boxShadow: '0 4px 24px rgba(0,0,0,0.13)' }}
             />
-            <motion.div
-              style={{ flex: 1 }}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.08 }}
-            >
-              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: OX, marginBottom: 12, display: 'flex', alignItems: 'center', gap: 5 }}>
+            <motion.div style={{ flex: 1 }} initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.08 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: OX, marginBottom: 12, display: 'flex', alignItems: 'center', justifyContent: isMobile ? 'center' : 'flex-start', gap: 5, flexWrap: 'wrap' }}>
                 <MapPin size={10} /> Relocating to Singapore · Prev EP Holder 2020 · COMPASS Eligible
               </div>
-              <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: 'clamp(2.8rem, 6.5vw, 5rem)', fontWeight: 900, textTransform: 'uppercase', lineHeight: 0.9, letterSpacing: '-0.01em', marginBottom: 14 }}>
+              <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: isMobile ? '3.2rem' : 'clamp(2.8rem, 6.5vw, 5rem)', fontWeight: 900, textTransform: 'uppercase', lineHeight: 0.9, letterSpacing: '-0.01em', marginBottom: 14 }}>
                 Stuart <span style={{ color: OX }}>Crowley</span>
               </h1>
               <p style={{ fontSize: 15, color: MUTED, marginBottom: 16, fontWeight: 300 }}>
                 Commercial Leadership / Revenue Infrastructure <span style={{ color: TEXT, fontWeight: 600 }}>· GTM APAC + EMEA</span>
               </p>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 28px' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 24px', justifyContent: isMobile ? 'center' : 'flex-start' }}>
                 <a href="mailto:scrowley194@gmail.com" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 13, color: MUTED, textDecoration: 'none' }}>
                   <Mail size={12} /> scrowley194@gmail.com
                 </a>
@@ -706,14 +648,14 @@ export default function App() {
 
       {/* ── STATS STRIP ── */}
       <div style={{ borderBottom: `1px solid ${BORDER}`, background: '#FDFAF7' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 56px', display: 'flex' }}>
-          <StatCard value={5}  prefix="€" suffix="M+" label="Annualised Revenue" sub="Media division impact" />
-          <StatCard value={7.7} prefix="€" suffix="M+" decimals={1} label="Commercial Pipeline" sub="2026 achieved & targeted" />
-          <StatCard value={3}  suffix="×"           label="Media Division Growth" sub="Within 18 months" />
-          <StatCard value={65} suffix="%+"          label="ACV Growth"            sub="Pricing strategy overhaul" />
-          <StatCard value={8}  suffix="+ yrs"       label="Commercial Leadership" sub="B2B SaaS & Media" />
-          <div style={{ flex: 1, padding: '32px 24px', textAlign: 'center', minWidth: 0 }}>
-            <div style={{ fontSize: 26, fontWeight: 800, color: OX, lineHeight: 1 }}>APAC</div>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '0' : '0 56px', display: isMobile ? 'grid' : 'flex', gridTemplateColumns: isMobile ? '1fr 1fr' : 'none' }}>
+          <StatCard index={0} isMobile={isMobile} value={5}  prefix="€" suffix="M+" label="Annualised Revenue" sub="Media division impact" />
+          <StatCard index={1} isMobile={isMobile} value={7.7} prefix="€" suffix="M+" decimals={1} label="Commercial Pipeline" sub="2026 achieved & targeted" />
+          <StatCard index={2} isMobile={isMobile} value={3}  suffix="×"           label="Media Division Growth" sub="Within 18 months" />
+          <StatCard index={3} isMobile={isMobile} value={65} suffix="%+"          label="ACV Growth"            sub="Pricing strategy overhaul" />
+          <StatCard index={4} isMobile={isMobile} value={8}  suffix="+ yrs"       label="Commercial Leadership" sub="B2B SaaS & Media" />
+          <div style={{ flex: 1, padding: isMobile ? '24px 16px' : '32px 24px', textAlign: 'center', minWidth: 0 }}>
+            <div style={{ fontSize: isMobile ? 24 : 26, fontWeight: 800, color: OX, lineHeight: 1 }}>APAC</div>
             <div style={{ fontSize: 11, color: MUTED, marginTop: 8, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Regional Base</div>
             <div style={{ fontSize: 10, color: SOFT, marginTop: 4 }}>SG · 2019–2022</div>
           </div>
@@ -727,7 +669,7 @@ export default function App() {
       <WorldMap />
 
       {/* ── MAIN BODY ── */}
-      <main style={{ maxWidth: 1100, margin: '0 auto', padding: '64px 56px 96px', display: 'grid', gridTemplateColumns: '1fr 300px', gap: 64, alignItems: 'start' }}>
+      <main style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 24px 64px' : '64px 56px 96px', display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 300px', gap: isMobile ? 48 : 64, alignItems: 'start' }}>
 
         {/* LEFT: Experience */}
         <div>
@@ -737,8 +679,8 @@ export default function App() {
           </div>
           <p style={{ fontSize: 12, color: SOFT, marginBottom: 24, paddingLeft: 30 }}>Click any role to reveal achievements</p>
 
-          <div style={{ marginLeft: -20 }}>
-            <Role company="Strait Up Growth" title="Founder" dates="2026 – Present" location="Singapore"
+          <div style={{ marginLeft: isMobile ? 0 : -20 }}>
+            <Role isMobile={isMobile} company="Strait Up Growth" title="Founder" dates="2026 – Present" location="Singapore"
               context="Boutique consultancy I founded and run alongside my NEXT.io role. Embedded operator model serving lean teams across APAC and EMEA."
               bullets={[
                 'Fractional Commercial Leadership: Embeds as a hands-on commercial operator, building pipeline architecture, forecasting frameworks, and reporting infrastructure.',
@@ -747,7 +689,7 @@ export default function App() {
                 'Client Impact: Delivered 30% operational efficiency uplift within 4 months for COL Web Pte Ltd. Engagement portfolio spans iGaming, SaaS, Tech, and Media.',
               ]}
             />
-            <Role company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
+            <Role isMobile={isMobile} company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
               context="Promoted from Head of Media to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, and CRM Specialist."
               bullets={[
                 'ACV & Margin Growth: Increased average contract value by 65%+ by overhauling pricing strategy and introducing tiered discount authorities. Delivered double-digit margin uplift.',
@@ -756,7 +698,7 @@ export default function App() {
                 'New Vertical Launch: Architected GTM strategy for the new NEXTPredict event (targeting €1.35M), including revenue modelling, competitor benchmarking, positioning, and launch planning.',
               ]}
             />
-            <Role company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
+            <Role isMobile={isMobile} company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
               context="Recruited to build the Media division from scratch as a P&L-owned business unit. Took it from zero to the company's most profitable division in 18 months."
               bullets={[
                 'P&L from Zero: Built and ran a new P&L from launch, taking the division 3x in 18 months to €5M+ annualised revenue and the company\'s most profitable business unit.',
@@ -764,28 +706,28 @@ export default function App() {
                 'Enterprise Product Launch: Spun up the Research & Insights division as a new high-margin revenue line, generating six-figure year-one revenue and adding a recurring layer to the business.',
               ]}
             />
-            <Role company="CloserStill Media" title="Global Marketing Manager / Editor of Techerati" dates="Aug 2022 – May 2024" location="London & Singapore"
+            <Role isMobile={isMobile} company="CloserStill Media" title="Global Marketing Manager / Editor of Techerati" dates="Aug 2022 – May 2024" location="London & Singapore"
               context="Managed a team of 6, leading content marketing and demand generation for the Tech Portfolio. Strategic bridge between European and APAC markets."
               bullets={[
                 'Delivered culturally adapted GTM strategies bridging EMEA and APAC audiences across AI, SaaS, and Cybersecurity verticals.',
                 'Launched multi-market B2B content partnerships generating high-quality MQLs. Achieved 120% website traffic growth and 135% Linkedin follower uplift.',
               ]}
             />
-            <Role company="Microgaming" title="Head of Brand & Content (APAC)" dates="Mar 2021 – Aug 2022" location="Singapore"
+            <Role isMobile={isMobile} company="Microgaming" title="Head of Brand & Content (APAC)" dates="Mar 2021 – Aug 2022" location="Singapore"
               context="Managed a $2M+ APAC P&L and a cross-functional team of 8, driving end-to-end brand strategy and creative direction across the Asian market."
               bullets={[
                 'Directed digital transformation projects across six companies, delivering measurable visibility gains and a 35% uplift in regional conversion rates across APAC.',
                 'Established scalable content ecosystems and brand playbooks across B2B2C channels.',
               ]}
             />
-            <Role company="W.Media" title="Head of Production & Editorial (APAC)" dates="Feb 2019 – Mar 2021" location="Singapore"
+            <Role isMobile={isMobile} company="W.Media" title="Head of Production & Editorial (APAC)" dates="Feb 2019 – Mar 2021" location="Singapore"
               context="Reported directly to the CEO. Managed a $1M+ APAC P&L, hiring 4 key regional staff to build a high-performing team of 8."
               bullets={[
                 'Spearheaded the pivot to digital-first models during the pandemic, delivering 300%+ growth in web traffic through regional virtual summits.',
                 'Strengthened B2B partnerships with Digital Realty, Equinix, and Keppel, securing renewed sponsorships and expanding APAC market share.',
               ]}
             />
-            <Role company="ComplyAdvantage" title="Marketing Executive (EMEA)" dates="May 2018 – Feb 2019" location="London"
+            <Role isMobile={isMobile} company="ComplyAdvantage" title="Marketing Executive (EMEA)" dates="May 2018 – Feb 2019" location="London"
               context=""
               bullets={[
                 'Designed a unified global social strategy for this RegTech SaaS scale-up, introducing company-wide social selling enablement across Linkedin and Twitter.',
