@@ -63,10 +63,156 @@ const MUTED   = '#5C5050';
 const SOFT    = '#9A8E8E';
 
 /* ── Geographic Footprint Map ───────────────────────────── */
+const GEO_URL = 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json';
+const COVERED = new Set([826, 470, 840, 702, 158, 276, 250, 724]);
+
 function WorldMap() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
   const [active, setActive] = useState(null);
+
+  // We map the SVG natively using framework-agnostic libraries
+  // to avoid the multiple-React-instance errors from react-simple-maps in this preview sandbox.
+  const [mapState, setMapState] = useState({ status: 'loading', data: null });
+
+  useEffect(() => {
+    let mounted = true;
+    
+    Promise.all([
+      import('https://esm.sh/d3-geo@3'),
+      import('https://esm.sh/topojson-client@3'),
+      fetch(GEO_URL).then(r => r.json())
+    ])
+    .then(([d3, topo, topoData]) => {
+      if (!mounted) return;
+      const featureFn = topo.feature || topo.default?.feature;
+      const features = featureFn(topoData, topoData.objects.countries).features;
+      setMapState({ status: 'ready', data: { d3, features } });
+    })
+    .catch((err) => {
+      console.error("Interactive map dependencies failed to load:", err);
+      if (mounted) setMapState({ status: 'error', data: null });
+    });
+
+    return () => { mounted = false; };
+  }, []);
+
+  const renderMap = () => {
+    if (mapState.status === 'loading') {
+      return (
+        <div style={{ height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center', color: MUTED }}>
+          Loading interactive map...
+        </div>
+      );
+    }
+
+    if (mapState.status === 'error') {
+      // Abstract fallback map if CDN imports are blocked
+      return (
+        <svg viewBox="0 0 880 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
+          <defs>
+            <pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+              <circle cx="2" cy="2" r="1" fill="#D4CEC6" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#dotGrid)" />
+          {LOCATIONS.map((loc, i) => {
+            const x = (loc.coords[0] + 180) * (880 / 360);
+            const y = (90 - loc.coords[1]) * (400 / 180);
+            const isActive = active === i;
+            return (
+              <g key={loc.name} transform={`translate(${x}, ${y})`}>
+                <circle r={5} fill={isActive ? OX : '#fff'} stroke={OX} strokeWidth={2} />
+              </g>
+            );
+          })}
+        </svg>
+      );
+    }
+
+    const { d3, features } = mapState.data;
+    
+    // This perfectly mirrors the react-simple-maps projection config
+    const projection = d3.geoNaturalEarth1()
+      .scale(155)
+      .center([20, 15])
+      .translate([440, 200]);
+      
+    const pathGenerator = d3.geoPath().projection(projection);
+
+    return (
+      <svg viewBox="0 0 880 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
+        <g>
+          {features.map((geo, idx) => {
+            const id = Number(geo.id);
+            const isCovered = COVERED.has(id);
+            const locIndex = isCovered ? [826, 470, 840, 702, 158, 276, 250, 724].indexOf(id) : -1;
+            const isActive = active === locIndex;
+
+            const fill = isActive ? OX : isCovered ? '#B8948A' : '#D4CEC6';
+
+            return (
+              <path
+                key={geo.id || idx}
+                d={pathGenerator(geo)}
+                fill={fill}
+                stroke="#C8C0B8"
+                strokeWidth="0.4"
+                style={{ cursor: isCovered ? 'pointer' : 'default', transition: 'fill 0.2s', outline: 'none' }}
+                onMouseEnter={() => locIndex >= 0 && setActive(locIndex)}
+                onMouseLeave={() => setActive(null)}
+              />
+            );
+          })}
+        </g>
+
+        {LOCATIONS.map((loc, i) => {
+          const projected = projection(loc.coords);
+          if (!projected) return null;
+          const [x, y] = projected;
+          const isActive = active === i;
+          
+          return (
+            <g key={loc.name} transform={`translate(${x}, ${y})`}>
+              {/* Pulse ring */}
+              <motion.circle
+                r={0}
+                fill="none"
+                stroke={OX}
+                strokeWidth={1.5}
+                strokeOpacity={0.6}
+                initial={{ r: 0, opacity: 0 }}
+                animate={inView ? {
+                  r: [5, 14],
+                  opacity: [0.7, 0],
+                } : {}}
+                transition={{
+                  duration: 1.8,
+                  repeat: Infinity,
+                  ease: 'easeOut',
+                  delay: i * 0.35,
+                  repeatDelay: 0.5,
+                }}
+              />
+              {/* Dot */}
+              <motion.circle
+                r={5}
+                fill={isActive ? OX : '#fff'}
+                stroke={OX}
+                strokeWidth={2}
+                style={{ cursor: 'pointer' }}
+                onMouseEnter={() => setActive(i)}
+                onMouseLeave={() => setActive(null)}
+                initial={{ scale: 0 }}
+                animate={inView ? { scale: 1 } : {}}
+                transition={{ delay: 0.3 + i * 0.15, type: 'spring', stiffness: 260 }}
+              />
+            </g>
+          );
+        })}
+      </svg>
+    );
+  };
 
   return (
     <div ref={ref} style={{ background: '#FDFAF7', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
@@ -115,76 +261,9 @@ function WorldMap() {
         {/* Map + detail panel */}
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: 32, alignItems: 'start' }}>
 
-          {/* Map Alternative (dependency-free projection) */}
+          {/* Map Container */}
           <div style={{ borderRadius: 12, overflow: 'hidden', border: `1px solid ${BORDER}`, background: '#EDE8E2', position: 'relative' }}>
-            <svg viewBox="0 0 880 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
-              <defs>
-                <pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                  <circle cx="2" cy="2" r="1" fill="#D4CEC6" />
-                </pattern>
-              </defs>
-              
-              {/* Abstract Base */}
-              <rect width="100%" height="100%" fill="url(#dotGrid)" />
-              
-              {/* Connection curves linking primary bases: NY -> London -> Singapore */}
-              <motion.path
-                d="M 259,109 Q 347,60 436,83 T 693,197"
-                fill="none"
-                stroke={OX}
-                strokeWidth="1.5"
-                strokeDasharray="4 4"
-                strokeOpacity="0.3"
-                initial={{ pathLength: 0 }}
-                animate={inView ? { pathLength: 1 } : {}}
-                transition={{ duration: 2, ease: "easeInOut", delay: 0.2 }}
-              />
-
-              {/* Pins calculated via equirectangular projection */}
-              {LOCATIONS.map((loc, i) => {
-                const x = (loc.coords[0] + 180) * (880 / 360);
-                const y = (90 - loc.coords[1]) * (400 / 180);
-                const isActive = active === i;
-                
-                return (
-                  <g key={loc.name} transform={`translate(${x}, ${y})`}>
-                    {/* Pulse ring */}
-                    <motion.circle
-                      r={0}
-                      fill="none"
-                      stroke={OX}
-                      strokeWidth={1.5}
-                      strokeOpacity={0.6}
-                      initial={{ r: 0, opacity: 0 }}
-                      animate={inView ? {
-                        r: [5, 14],
-                        opacity: [0.7, 0],
-                      } : {}}
-                      transition={{
-                        duration: 1.8,
-                        repeat: Infinity,
-                        ease: 'easeOut',
-                        delay: i * 0.35,
-                        repeatDelay: 0.5,
-                      }}
-                    />
-                    {/* Dot */}
-                    <motion.circle
-                      r={5}
-                      fill={isActive ? OX : '#fff'}
-                      stroke={OX}
-                      strokeWidth={2}
-                      style={{ cursor: 'pointer' }}
-                      onMouseEnter={() => setActive(i)}
-                      onMouseLeave={() => setActive(null)}
-                      initial={{ scale: 0 }}
-                      animate={inView ? { scale: 1 } : {}}
-                      transition={{ delay: 0.3 + i * 0.15, type: 'spring', stiffness: 260 }}
-                    />
-                  </g>
-                );
-              })}
-            </svg>
+            {renderMap()}
           </div>
 
           {/* Detail panel */}
