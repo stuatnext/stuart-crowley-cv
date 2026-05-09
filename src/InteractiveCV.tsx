@@ -867,7 +867,7 @@ export default function App() {
                 <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#10B981' }}>Available for Fractional</span>
               </div>
               <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, lineHeight: 1.2 }}>Strait Up Growth</h4>
-              <p style={{ fontSize: 13, color: '#A39898', lineHeight: 1.6, marginBottom: 16 }}>Not ready for a full-time Commercial Director? I embed with lean teams to build pipeline architecture, AI workflows, and GTM strategies on a fractional basis.</p>
+              <p style={{ fontSize: 13, color: '#A39898', lineHeight: 1.6, marginBottom: 16 }}>Not ready for a full-time growth architect? I embed with lean teams to build pipeline architecture, AI workflows, and GTM strategies on a fractional basis.</p>
               <MagneticButton isMobile={isMobile}>
                 <a href="https://straitupgrowth.com" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#fff', textDecoration: 'none', borderBottom: '1px solid rgba(255,255,255,0.3)', paddingBottom: 2, transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.borderColor = '#fff'} onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'}>
                   Discuss a project <ArrowRight size={12} />
