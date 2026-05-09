@@ -371,7 +371,12 @@ function StickyHeader({ isMobile, onOpenCmdK }) {
 
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '12px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <div style={{ width: 36, height: 36, borderRadius: '50%', background: OX, color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 16, fontFamily: "'Anton', sans-serif" }}>SC</div>
+          <img
+            src={HEADSHOT}
+            alt="Stuart Crowley"
+            onError={(e) => { e.currentTarget.src = "https://ui-avatars.com/api/?name=Stuart+Crowley&background=7A2535&color=fff&size=100&bold=true"; }}
+            style={{ width: 36, height: 36, borderRadius: '50%', objectFit: 'cover', flexShrink: 0, border: `1px solid ${BORDER}` }}
+          />
           {!isMobile && (
             <div>
               <div style={{ fontSize: 14, fontWeight: 800, color: TEXT, lineHeight: 1 }}>Stuart Crowley</div>
@@ -417,15 +422,15 @@ function CommercialPlaybook({ isMobile }) {
   const inView = useInView(ref, { once: true, margin: '-40px' });
 
   return (
-    <div ref={ref} style={{ marginBottom: 48, background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 12, padding: isMobile ? 20 : 32, overflow: 'hidden' }}>
+    <div ref={ref} style={{ marginTop: 48, background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 12, padding: isMobile ? 20 : 32, overflow: 'hidden' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
         <div style={{ width: 20, height: 2, background: OX }} />
         <h3 style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: OX }}>The Operator's Playbook</h3>
       </div>
 
-      <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', gap: 24 }}>
-        {/* Tabs Sidebar */}
-        <div style={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', gap: 8, minWidth: 200, overflowX: isMobile ? 'auto' : 'visible', paddingBottom: isMobile ? 8 : 0, WebkitOverflowScrolling: 'touch' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {/* Tabs Row */}
+        <div style={{ display: 'flex', gap: 8, overflowX: 'auto', paddingBottom: 8, WebkitOverflowScrolling: 'touch', msOverflowStyle: 'none', scrollbarWidth: 'none' }}>
           {PLAYBOOK_DATA.map((item, i) => {
             const isActive = activeTab === i;
             return (
@@ -433,10 +438,10 @@ function CommercialPlaybook({ isMobile }) {
                 key={item.id}
                 onClick={() => setActiveTab(i)}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: 10, padding: '12px 16px', border: 'none',
+                  display: 'flex', alignItems: 'center', gap: 8, padding: '10px 16px', border: 'none',
                   background: isActive ? '#F6F2ED' : 'transparent',
                   color: isActive ? OX : MUTED,
-                  borderRadius: 8, cursor: 'pointer', textAlign: 'left',
+                  borderRadius: 8, cursor: 'pointer',
                   fontWeight: isActive ? 700 : 500, fontSize: 13,
                   transition: 'all 0.2s', whiteSpace: 'nowrap'
                 }}
@@ -449,7 +454,7 @@ function CommercialPlaybook({ isMobile }) {
         </div>
 
         {/* Content Area */}
-        <div style={{ flex: 1, background: '#FDFAF7', borderRadius: 8, padding: isMobile ? 20 : 28, position: 'relative', border: `1px solid ${BORDER}` }}>
+        <div style={{ background: '#FDFAF7', borderRadius: 8, padding: isMobile ? 20 : 28, position: 'relative', border: `1px solid ${BORDER}` }}>
           <AnimatePresence mode="wait">
             <motion.div
               key={activeTab}
@@ -457,7 +462,6 @@ function CommercialPlaybook({ isMobile }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.2 }}
-              style={{ maxWidth: 700 }}
             >
               <div style={{ fontSize: 18, fontWeight: 800, color: TEXT, marginBottom: 12, lineHeight: 1.2 }}>
                 {PLAYBOOK_DATA[activeTab].headline}
@@ -609,8 +613,8 @@ function RevenueBar({ label, amount, pct, delay }) {
 }
 
 /* ── Experience role card ─────────────────────────────────── */
-function Role({ company, title, dates, location, context, bullets, isLast = false, isMobile }) {
-  const [open, setOpen] = useState(false);
+function Role({ company, title, dates, location, context, bullets, isLast = false, isMobile, defaultOpen = false, logo }) {
+  const [open, setOpen] = useState(defaultOpen);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
 
@@ -623,7 +627,10 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
       onMouseLeave={e => { if (!open) e.currentTarget.style.background = 'transparent'; }}
     >
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 4 }}>
-        <h4 style={{ fontSize: 17, fontWeight: 700, color: TEXT, letterSpacing: '-0.01em', lineHeight: 1.2 }}>{company}</h4>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          {logo && <img src={logo} alt={`${company} logo`} style={{ width: 22, height: 22, borderRadius: 4, objectFit: 'contain' }} />}
+          <h4 style={{ fontSize: 17, fontWeight: 700, color: TEXT, letterSpacing: '-0.01em', lineHeight: 1.2 }}>{company}</h4>
+        </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <span style={{ fontSize: 11.5, color: SOFT, fontWeight: 500 }}>{dates}</span>
           <div style={{ color: OX, opacity: 0.8, transition: 'transform 0.25s', transform: open ? 'rotate(180deg)' : 'rotate(0deg)' }}><ChevronDown size={18} /></div>
@@ -768,7 +775,7 @@ export default function App() {
             <p style={{ fontSize: 12, color: SOFT, marginBottom: 24, paddingLeft: 30 }}>Click any role to reveal achievements</p>
 
             <div style={{ marginLeft: isMobile ? 0 : -20 }}>
-              <Role isMobile={isMobile} company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
+              <Role defaultOpen={true} isMobile={isMobile} company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
                 context="Promoted from Head of Media to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, and CRM Specialist."
                 bullets={[
                   'ACV & Margin Growth: Increased average contract value by 65%+ by overhauling pricing strategy and introducing tiered discount authorities. Delivered double-digit margin uplift.',
@@ -777,7 +784,7 @@ export default function App() {
                   'New Vertical Launch: Architected GTM strategy for the new NEXTPredict event, including revenue modelling, competitor benchmarking, positioning, and launch planning.',
                 ]}
               />
-              <Role isMobile={isMobile} company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
+              <Role defaultOpen={true} isMobile={isMobile} company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
                 context="Recruited to build the Media division from scratch as a P&L-owned business unit. Took it from zero to the company's most profitable division in 18 months."
                 bullets={[
                   'P&L from Zero: Built and ran a new P&L from launch, taking the division 3x in 18 months to €5M+ annualised revenue and the company\'s most profitable business unit.',
@@ -814,6 +821,35 @@ export default function App() {
                 isLast
               />
             </div>
+            
+            {/* Consultancy Section */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 40, marginBottom: 16 }}>
+              <div style={{ width: 20, height: 2, background: OX }} />
+              <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>Consultancy</h3>
+            </div>
+            
+            <div style={{ marginLeft: isMobile ? 0 : -20 }}>
+              <Role 
+                defaultOpen={true} 
+                isMobile={isMobile} 
+                company="Strait Up Growth" 
+                logo="https://straitupgrowth.com/logo.png" 
+                title="Founder" 
+                dates="2026 – Present" 
+                location="Singapore"
+                context="Boutique consultancy I founded and run alongside my NEXT.io role. Embedded operator model serving lean teams across APAC and EMEA."
+                bullets={[
+                  'Fractional Commercial Leadership: Embeds as a hands-on commercial operator, building pipeline architecture, forecasting frameworks, and reporting infrastructure.',
+                  'AI Fluency & Workflow Efficiency: Builds practical AI adoption inside teams across use cases, prompting habits, shared libraries, and automation workflows.',
+                  'Growth, GTM & Market Expansion: Designs and executes GTM architecture for new ICPs, stalled channels, and cross-border moves.',
+                  'Client Impact: Delivered 30% operational efficiency uplift within 4 months for COL Web Pte Ltd. Engagement portfolio spans iGaming, SaaS, Tech, and Media.',
+                ]}
+                isLast
+              />
+            </div>
+            
+            {/* Playbook moved to the left column to fill the gap and balance height */}
+            <CommercialPlaybook isMobile={isMobile} />
           </div>
 
           {/* RIGHT: Sidebar */}
@@ -913,9 +949,6 @@ export default function App() {
 
           </aside>
         </div>
-
-        {/* BOTTOM ROW: Playbook */}
-        <CommercialPlaybook isMobile={isMobile} />
 
       </main>
       
