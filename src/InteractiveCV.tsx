@@ -2,9 +2,56 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Mail, Phone, Linkedin, ExternalLink, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
 
-// Placeholder to ensure single-file compilation in this environment.
-// Restore your import in your local GitHub environment: import WorldMap from './WorldMap';
-const WorldMap = () => null;
+const LOCATIONS = [
+  {
+    name: 'United Kingdom',
+    coords: [-1.5, 52.5],
+    period: '2018 · 2022–24',
+    roles: ['ComplyAdvantage – EMEA social strategy', 'CloserStill Media – Global Tech Portfolio'],
+  },
+  {
+    name: 'Malta',
+    coords: [14.5, 35.9],
+    period: 'Sector coverage',
+    roles: ['iGaming & B2B media hub', 'Key client & event market'],
+  },
+  {
+    name: 'United States',
+    coords: [-74.0, 40.7],
+    period: '2025',
+    roles: ['NEXT.io – Prediction Markets vertical', 'New York launch GTM & revenue model'],
+  },
+  {
+    name: 'Singapore',
+    coords: [103.8, 1.35],
+    period: '2019–2022',
+    roles: ['W.Media – APAC P&L $1.5M', 'Microgaming – APAC P&L $2.5M', 'CloserStill – APAC bridge'],
+  },
+  {
+    name: 'Taiwan',
+    coords: [121.0, 23.5],
+    period: 'APAC operations',
+    roles: ['Regional market coverage', 'B2B tech & media sector'],
+  },
+  {
+    name: 'Germany',
+    coords: [10.4, 51.2],
+    period: '2022–2024',
+    roles: ['CloserStill Media – Tech Shows', 'B2B tech event market'],
+  },
+  {
+    name: 'France',
+    coords: [2.3, 46.2],
+    period: '2022–2024',
+    roles: ['CloserStill Media – Tech Shows', 'B2B tech event market'],
+  },
+  {
+    name: 'Spain',
+    coords: [-3.7, 40.4],
+    period: '2022–2024',
+    roles: ['CloserStill Media – Tech Shows', 'B2B tech event market'],
+  },
+];
 
 const HEADSHOT = './headshot.jpg';
 const OX      = '#7A2535';
@@ -14,6 +61,194 @@ const BORDER  = '#E2D9D0';
 const TEXT    = '#0A0A0A';
 const MUTED   = '#5C5050';
 const SOFT    = '#9A8E8E';
+
+/* ── Geographic Footprint Map ───────────────────────────── */
+function WorldMap() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-80px' });
+  const [active, setActive] = useState(null);
+
+  return (
+    <div ref={ref} style={{ background: '#FDFAF7', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '52px 56px 48px' }}>
+
+        {/* Section header */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 32, flexWrap: 'wrap', gap: 16 }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <div style={{ width: 20, height: 2, background: OX }} />
+              <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>
+                Geographic Footprint
+              </h3>
+            </div>
+            <p style={{ fontSize: 13, color: MUTED, paddingLeft: 30 }}>
+              Hover a pin to explore — UK · Malta · USA · Singapore · Taiwan · Germany · France · Spain
+            </p>
+          </div>
+
+          {/* Country chips */}
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+            {LOCATIONS.map((loc, i) => (
+              <button
+                key={loc.name}
+                onMouseEnter={() => setActive(i)}
+                onMouseLeave={() => setActive(null)}
+                style={{
+                  padding: '5px 12px',
+                  borderRadius: 20,
+                  border: `1.5px solid ${active === i ? OX : BORDER}`,
+                  background: active === i ? OX : 'transparent',
+                  color: active === i ? '#fff' : MUTED,
+                  fontSize: 11.5,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  transition: 'all 0.18s',
+                  fontFamily: 'inherit',
+                }}
+              >
+                {loc.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Map + detail panel */}
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 260px', gap: 32, alignItems: 'start' }}>
+
+          {/* Map Alternative (dependency-free projection) */}
+          <div style={{ borderRadius: 12, overflow: 'hidden', border: `1px solid ${BORDER}`, background: '#EDE8E2', position: 'relative' }}>
+            <svg viewBox="0 0 880 400" style={{ width: '100%', height: 'auto', display: 'block' }}>
+              <defs>
+                <pattern id="dotGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <circle cx="2" cy="2" r="1" fill="#D4CEC6" />
+                </pattern>
+              </defs>
+              
+              {/* Abstract Base */}
+              <rect width="100%" height="100%" fill="url(#dotGrid)" />
+              
+              {/* Connection curves linking primary bases: NY -> London -> Singapore */}
+              <motion.path
+                d="M 259,109 Q 347,60 436,83 T 693,197"
+                fill="none"
+                stroke={OX}
+                strokeWidth="1.5"
+                strokeDasharray="4 4"
+                strokeOpacity="0.3"
+                initial={{ pathLength: 0 }}
+                animate={inView ? { pathLength: 1 } : {}}
+                transition={{ duration: 2, ease: "easeInOut", delay: 0.2 }}
+              />
+
+              {/* Pins calculated via equirectangular projection */}
+              {LOCATIONS.map((loc, i) => {
+                const x = (loc.coords[0] + 180) * (880 / 360);
+                const y = (90 - loc.coords[1]) * (400 / 180);
+                const isActive = active === i;
+                
+                return (
+                  <g key={loc.name} transform={`translate(${x}, ${y})`}>
+                    {/* Pulse ring */}
+                    <motion.circle
+                      r={0}
+                      fill="none"
+                      stroke={OX}
+                      strokeWidth={1.5}
+                      strokeOpacity={0.6}
+                      initial={{ r: 0, opacity: 0 }}
+                      animate={inView ? {
+                        r: [5, 14],
+                        opacity: [0.7, 0],
+                      } : {}}
+                      transition={{
+                        duration: 1.8,
+                        repeat: Infinity,
+                        ease: 'easeOut',
+                        delay: i * 0.35,
+                        repeatDelay: 0.5,
+                      }}
+                    />
+                    {/* Dot */}
+                    <motion.circle
+                      r={5}
+                      fill={isActive ? OX : '#fff'}
+                      stroke={OX}
+                      strokeWidth={2}
+                      style={{ cursor: 'pointer' }}
+                      onMouseEnter={() => setActive(i)}
+                      onMouseLeave={() => setActive(null)}
+                      initial={{ scale: 0 }}
+                      animate={inView ? { scale: 1 } : {}}
+                      transition={{ delay: 0.3 + i * 0.15, type: 'spring', stiffness: 260 }}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
+
+          {/* Detail panel */}
+          <div style={{ minHeight: 220 }}>
+            <AnimatePresence mode="wait">
+              {active !== null ? (
+                <motion.div
+                  key={active}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2 }}
+                  style={{
+                    background: '#fff',
+                    border: `1px solid ${BORDER}`,
+                    borderLeft: `3px solid ${OX}`,
+                    borderRadius: 10,
+                    padding: '20px 18px',
+                  }}
+                >
+                  <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: OX, marginBottom: 6 }}>
+                    {LOCATIONS[active].period}
+                  </div>
+                  <div style={{ fontSize: 16, fontWeight: 700, color: '#0A0A0A', marginBottom: 12, lineHeight: 1.2 }}>
+                    {LOCATIONS[active].name}
+                  </div>
+                  <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: 7 }}>
+                    {LOCATIONS[active].roles.map((r) => (
+                      <li key={r} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 13, color: '#3A3030', lineHeight: 1.5 }}>
+                        <span style={{ width: 5, height: 5, minWidth: 5, borderRadius: '50%', background: OX, marginTop: '0.45em', flexShrink: 0 }} />
+                        {r}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="empty"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: `1px dashed ${BORDER}`,
+                    borderRadius: 10,
+                    padding: 24,
+                    minHeight: 160,
+                  }}
+                >
+                  <p style={{ fontSize: 13, color: '#B0A8A4', textAlign: 'center', lineHeight: 1.6 }}>
+                    Hover a pin or country<br />to see details
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 /* ── Animated number counter ──────────────────────────────── */
 function Counter({ to, prefix = '', suffix = '', decimals = 0 }) {
@@ -44,7 +279,7 @@ const MILESTONES = [
   { x: 365, y: 90,  year: '2021', co: 'Microgaming',     loc: 'Singapore',   metric: '$2M+ P&L · Team of 8' },
   { x: 505, y: 72,  year: '2022', co: 'CloserStill',     loc: 'London & SG', metric: 'Global Tech Portfolio' },
   { x: 660, y: 38,  year: '2024', co: 'NEXT.io',         loc: 'Head of Media', metric: '€5M+ division' },
-  { x: 825, y: 12,  year: '2026', co: 'NEXT.io / Strait Up', loc: 'Comm. Director', metric: '€2M+ pipeline', current: true },
+  { x: 825, y: 12,  year: '2026', co: 'NEXT.io / Strait Up', loc: 'Comm. Director', metric: '€7.7M+ pipeline', current: true },
 ];
 
 // Smooth cubic bezier through milestones
@@ -394,7 +629,7 @@ export default function App() {
       <div style={{ borderBottom: `1px solid ${BORDER}`, background: '#FDFAF7' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 56px', display: 'flex' }}>
           <StatCard value={5}  prefix="€" suffix="M+" label="Annualised Revenue" sub="Media division impact" />
-          <StatCard value={2}  prefix="€" suffix="M+" label="Active Pipeline Built" sub="HubSpot, overhauled" />
+          <StatCard value={7.7} prefix="€" suffix="M+" decimals={1} label="Commercial Pipeline" sub="2026 achieved & targeted" />
           <StatCard value={3}  suffix="×"           label="Media Division Growth" sub="Within 18 months" />
           <StatCard value={65} suffix="%+"          label="ACV Growth"            sub="Pricing strategy overhaul" />
           <StatCard value={8}  suffix="+ yrs"       label="Commercial Leadership" sub="B2B SaaS & Media" />
@@ -437,9 +672,9 @@ export default function App() {
               context="Promoted from Head of Media to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, and CRM Specialist."
               bullets={[
                 'ACV & Margin Growth: Increased average contract value by 65%+ by overhauling pricing strategy and introducing tiered discount authorities. Delivered double-digit margin uplift.',
-                'Pipeline Forecasting & CRM Rigour: Overhauled HubSpot commercial intelligence across a €2M+ active pipeline. Improved coverage ratios and forecasting accuracy.',
+                'Pipeline & Revenue Scale: Managing a €7.7M+ 2026 commercial pipeline across Events (€3.9M+), Media & News (€2.4M+), and Community memberships. Overhauled HubSpot intelligence to track this scale.',
                 'Marketing Restructure: Rebuilt marketing into a four-pillar model covering Brand, Events, Media, and Commercial. Recruited Director of Marketing and improved speed-to-lead.',
-                'New Vertical Launch: Architected GTM strategy for a new regulated-market vertical, including revenue modelling, competitor benchmarking, positioning, and launch planning.',
+                'New Vertical Launch: Architected GTM strategy for the new NEXTPredict event (targeting €1.35M), including revenue modelling, competitor benchmarking, positioning, and launch planning.',
               ]}
             />
             <Role company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
@@ -488,7 +723,7 @@ export default function App() {
             <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.75 }}>
               <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building revenue infrastructure and GTM systems across APAC, EMEA, and LATAM.</p>
               <p style={{ marginBottom: 12 }}>Known for building first formal commercial departments from scratch, launching new revenue verticals, scaling ACV through pricing discipline, and replacing developer bottlenecks with operator-built systems on HubSpot, Airtable, and Make.com.</p>
-              <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue. Now responsible for the full commercial P&L: pricing, pipeline, sales, and marketing across multiple verticals.</p>
+              <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue. Now responsible for the full commercial P&L (currently managing a €7.7M+ 2026 pipeline): pricing, pipeline, sales, and marketing across multiple verticals.</p>
               <p>Senior APAC operating experience across two Singapore-based roles, managing regional P&Ls of $1M to $2M+. Now planning a permanent return to Singapore for a senior commercial leadership role.</p>
             </div>
           </SideSection>
