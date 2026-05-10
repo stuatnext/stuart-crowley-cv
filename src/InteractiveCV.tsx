@@ -1,4 +1,3 @@
-```react
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Mail, Phone, Linkedin, ExternalLink, MapPin, ChevronDown, ChevronUp, ArrowRight, Search, Command, Briefcase, Download, Globe, ShieldCheck } from 'lucide-react';
@@ -967,6 +966,3 @@ export default function App() {
   );
 }
 
-
-
-```
