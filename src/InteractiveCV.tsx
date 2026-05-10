@@ -1,3 +1,4 @@
+```react
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useInView, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Mail, Phone, Linkedin, ExternalLink, MapPin, ChevronDown, ChevronUp, ArrowRight, Search, Command, Briefcase, Download, Globe, ShieldCheck } from 'lucide-react';
@@ -255,8 +256,8 @@ function WorldMap() {
   };
 
   return (
-    <div id="map" ref={ref} style={{ background: '#FDFAF7', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 24px' : '52px 56px 48px' }}>
+    <div id="map" ref={ref} style={{ background: '#FDFAF7', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, width: '100%', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 20px' : '52px 56px 48px' }}>
         <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', alignItems: isMobile ? 'flex-start' : 'center', justifyContent: 'space-between', marginBottom: 32, gap: 16 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
@@ -366,9 +367,7 @@ function StickyHeader({ isMobile, onOpenCmdK }) {
         borderBottom: `1px solid ${BORDER}`, zIndex: 1000, boxShadow: '0 4px 30px rgba(0,0,0,0.03)'
       }}
     >
-      {/* Scroll Progress Bar */}
       <motion.div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: 2, background: OX, originX: 0, scaleX: scrollYProgress }} />
-
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '12px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <img
@@ -422,7 +421,7 @@ function CommercialPlaybook({ isMobile }) {
   const inView = useInView(ref, { once: true, margin: '-40px' });
 
   return (
-    <div ref={ref} style={{ marginTop: 48, background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 12, padding: isMobile ? 20 : 32, overflow: 'hidden' }}>
+    <div ref={ref} style={{ marginTop: 48, background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 12, padding: isMobile ? 20 : 32, overflow: 'hidden', width: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
         <div style={{ width: 20, height: 2, background: OX }} />
         <h3 style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: OX }}>The Operator's Playbook</h3>
@@ -526,8 +525,8 @@ function CareerChart() {
   const [hovered, setHovered] = useState(null);
 
   return (
-    <div ref={ref} style={{ background: '#fff', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}` }}>
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 24px' : '52px 48px 40px' }}>
+    <div ref={ref} style={{ background: '#fff', borderTop: `1px solid ${BORDER}`, borderBottom: `1px solid ${BORDER}`, width: '100%', overflow: 'hidden' }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 20px' : '52px 48px 40px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: isMobile ? 24 : 32 }}>
           <div style={{ width: 24, height: 2, background: OX }} />
           <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>
@@ -535,8 +534,8 @@ function CareerChart() {
           </h3>
         </div>
 
-        <div style={{ overflowX: isMobile ? 'auto' : 'visible', margin: isMobile ? '0 -24px' : 0, padding: isMobile ? '0 24px 16px' : 0 }}>
-          <div style={{ position: 'relative', minWidth: isMobile ? 800 : 'auto' }}>
+        <div style={{ overflowX: 'auto', width: '100%', WebkitOverflowScrolling: 'touch', paddingBottom: 16 }}>
+          <div style={{ position: 'relative', minWidth: isMobile ? 750 : '100%' }}>
             <svg viewBox="0 0 880 200" style={{ width: '100%', overflow: 'visible' }}>
               <defs><linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={OX} stopOpacity="0.12" /><stop offset="100%" stopColor={OX} stopOpacity="0.01" /></linearGradient></defs>
               <line x1="40" y1="195" x2="860" y2="195" stroke={BORDER} strokeWidth="1" />
@@ -622,14 +621,14 @@ function Role({ company, title, dates, location, context, bullets, isLast = fals
     <motion.div
       ref={ref} initial={{ opacity: 0, y: 16 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       onClick={() => setOpen(o => !o)}
-      style={{ cursor: 'pointer', padding: isMobile ? '20px 16px' : '24px 20px', marginBottom: isLast ? 0 : 4, borderRadius: 8, border: `1px solid ${open ? OX_SOFT : 'transparent'}`, background: open ? OX_SOFT : 'transparent', borderLeft: `3px solid ${open ? OX : 'transparent'}`, transition: 'all 0.2s ease', userSelect: 'none' }}
+      style={{ cursor: 'pointer', padding: isMobile ? '20px 16px' : '24px 20px', marginBottom: isLast ? 0 : 4, borderRadius: 8, border: `1px solid ${open ? OX_SOFT : 'transparent'}`, background: open ? OX_SOFT : 'transparent', borderLeft: `3px solid ${open ? OX : 'transparent'}`, transition: 'all 0.2s ease', userSelect: 'none', width: '100%', minWidth: 0 }}
       onMouseEnter={e => { if (!open) e.currentTarget.style.background = '#FAF6F4'; }}
       onMouseLeave={e => { if (!open) e.currentTarget.style.background = 'transparent'; }}
     >
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'flex-start', gap: 8, marginBottom: 4 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap', minWidth: 0 }}>
           {logo && <img src={logo} alt={`${company} logo`} style={{ height: 38, width: 'auto', maxWidth: 160, objectFit: 'contain' }} />}
-          {!hideCompanyName && <h4 style={{ fontSize: 17, fontWeight: 700, color: TEXT, letterSpacing: '-0.01em', lineHeight: 1.2 }}>{company}</h4>}
+          {!hideCompanyName && <h4 style={{ fontSize: 17, fontWeight: 700, color: TEXT, letterSpacing: '-0.01em', lineHeight: 1.2, margin: 0, wordBreak: 'break-word' }}>{company}</h4>}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
           <span style={{ fontSize: 11.5, color: SOFT, fontWeight: 500 }}>{dates}</span>
@@ -666,7 +665,7 @@ function SideSection({ title, children }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
   return (
-    <motion.div ref={ref} initial={{ opacity: 0, y: 12 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.45 }}>
+    <motion.div ref={ref} initial={{ opacity: 0, y: 12 }} animate={inView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.45 }} style={{ width: '100%', minWidth: 0 }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 18 }}>
         <div style={{ width: 20, height: 2, background: OX }} />
         <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>{title}</h3>
@@ -682,7 +681,7 @@ export default function App() {
   const { isOpen: isCmdKOpen, setIsOpen: setCmdKOpen } = useCmdK();
 
   return (
-    <div style={{ minHeight: '100vh', background: BG, color: TEXT, fontFamily: "'Inter', sans-serif" }}>
+    <div style={{ minHeight: '100vh', background: BG, color: TEXT, fontFamily: "'Inter', sans-serif", width: '100vw', maxWidth: '100%', overflowX: 'hidden' }}>
       <CmdKModal isOpen={isCmdKOpen} setIsOpen={setCmdKOpen} />
       <StickyHeader isMobile={isMobile} onOpenCmdK={() => setCmdKOpen(true)} />
 
@@ -691,7 +690,7 @@ export default function App() {
         initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, ease: "easeOut" }}
         style={{ borderBottom: `2.5px solid ${OX}`, background: BG, paddingTop: 40 }}
       >
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 24px' : '48px 56px' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 20px' : '48px 56px' }}>
           
           {/* Live Sync Element */}
           {!isMobile && (
@@ -718,7 +717,7 @@ export default function App() {
                 </div>
               </div>
 
-              <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: isMobile ? '3.2rem' : 'clamp(2.8rem, 6.5vw, 5rem)', fontWeight: 900, textTransform: 'uppercase', lineHeight: 0.9, letterSpacing: '-0.01em', marginBottom: 14 }}>
+              <h1 style={{ fontFamily: "'Anton', sans-serif", fontSize: `clamp(2.5rem, 10vw, 5rem)`, fontWeight: 900, textTransform: 'uppercase', lineHeight: 0.9, letterSpacing: '-0.01em', marginBottom: 14, wordBreak: 'break-word' }}>
                 Stuart <span style={{ color: OX }}>Crowley</span>
               </h1>
               <p style={{ fontSize: 15, color: MUTED, marginBottom: 16, fontWeight: 300 }}>
@@ -741,8 +740,8 @@ export default function App() {
       </motion.header>
 
       {/* ── STATS STRIP ── */}
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.8 }} style={{ borderBottom: `1px solid ${BORDER}`, background: '#FDFAF7' }}>
-        <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '0' : '0 56px', display: isMobile ? 'grid' : 'flex', gridTemplateColumns: isMobile ? '1fr 1fr' : 'none' }}>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.8 }} style={{ borderBottom: `1px solid ${BORDER}`, background: '#FDFAF7', width: '100%', overflow: 'hidden' }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '0' : '0 56px', display: isMobile ? 'grid' : 'flex', gridTemplateColumns: isMobile ? '1fr 1fr' : 'none', width: '100%' }}>
           <StatCard index={0} isMobile={isMobile} value={5}  prefix="€" suffix="M+" label="Annualised Revenue" sub="Media division impact" />
           <StatCard index={1} isMobile={isMobile} value={2}  prefix="€" suffix="M+" label="Active Pipeline Built" sub="HubSpot, overhauled" />
           <StatCard index={2} isMobile={isMobile} value={3}  suffix="×"           label="Media Division Growth" sub="Within 18 months" />
@@ -763,20 +762,20 @@ export default function App() {
       <WorldMap />
 
       {/* ── MAIN BODY ── */}
-      <main style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 24px 64px' : '64px 56px 96px' }}>
+      <main style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 20px 64px' : '64px 56px 96px', width: '100%' }}>
 
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 300px', gap: isMobile ? 48 : 64, alignItems: 'start', marginBottom: 64 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 300px', gap: isMobile ? 48 : 64, alignItems: 'start', marginBottom: 64, width: '100%' }}>
           {/* LEFT: Experience */}
-          <div>
+          <div style={{ minWidth: 0, width: '100%' }}>
             <div id="experience" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <div style={{ width: 20, height: 2, background: OX }} />
               <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>Professional Experience</h3>
             </div>
             <p style={{ fontSize: 12, color: SOFT, marginBottom: 24, paddingLeft: 30 }}>Click any role to reveal achievements</p>
 
-            <div style={{ marginLeft: isMobile ? 0 : -20 }}>
+            <div style={{ marginLeft: isMobile ? 0 : -20, width: isMobile ? '100%' : 'calc(100% + 20px)' }}>
               <Role defaultOpen={true} isMobile={isMobile} company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
-                context="Promoted from Head of Media to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, and CRM Specialist."
+                context="Promoted from Head of Media to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, Growth Marketing Manager, Community Manager, and CRM Specialist."
                 bullets={[
                   'ACV & Margin Growth: Increased average contract value by 65%+ by overhauling pricing strategy and introducing tiered discount authorities. Delivered double-digit margin uplift.',
                   'Pipeline & Revenue Scale: Rebuilt CRM architecture to cleanly track and forecast a multi-vertical, €7M+ pipeline spanning Events, Media, and Community.',
@@ -821,14 +820,14 @@ export default function App() {
                 isLast
               />
             </div>
-            
+
             {/* Consultancy Section */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 40, marginBottom: 16 }}>
               <div style={{ width: 20, height: 2, background: OX }} />
               <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>Consultancy</h3>
             </div>
             
-            <div style={{ marginLeft: isMobile ? 0 : -20 }}>
+            <div style={{ marginLeft: isMobile ? 0 : -20, width: isMobile ? '100%' : 'calc(100% + 20px)' }}>
               <Role 
                 defaultOpen={true} 
                 isMobile={isMobile} 
@@ -843,18 +842,18 @@ export default function App() {
                   'Fractional Commercial Leadership: Embeds as a hands-on commercial operator, building pipeline architecture, forecasting frameworks, and reporting infrastructure.',
                   'AI Fluency & Workflow Efficiency: Builds practical AI adoption inside teams across use cases, prompting habits, shared libraries, and automation workflows.',
                   'Growth, GTM & Market Expansion: Designs and executes GTM architecture for new ICPs, stalled channels, and cross-border moves.',
-                  'Client Impact: Delivered COL Web a marked increase of 30% operational efficiency uplift within 4 months. Engagement portfolio spans B2B Events, SaaS, Tech, and Media.',
+                  'Client Impact: Delivered 30% operational efficiency uplift within 4 months for COL Web Pte Ltd. Engagement portfolio spans iGaming, SaaS, Tech, and Media.',
                 ]}
                 isLast
               />
             </div>
-            
+
             {/* Playbook moved to the left column to fill the gap and balance height */}
             <CommercialPlaybook isMobile={isMobile} />
           </div>
 
           {/* RIGHT: Sidebar */}
-          <aside style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+          <aside style={{ display: 'flex', flexDirection: 'column', gap: 32, minWidth: 0, width: '100%' }}>
 
             {/* Strait Up Growth (Consulting) Card */}
             <motion.div 
@@ -867,7 +866,7 @@ export default function App() {
                 <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#10B981' }}>Available for Fractional</span>
               </div>
               <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, lineHeight: 1.2 }}>Strait Up Growth</h4>
-              <p style={{ fontSize: 13, color: '#A39898', lineHeight: 1.6, marginBottom: 16 }}>Not ready for a full-time growth architect? I embed with lean teams to build pipeline architecture, AI workflows, and GTM strategies on a fractional basis.</p>
+              <p style={{ fontSize: 13, color: '#A39898', lineHeight: 1.6, marginBottom: 16 }}>Not ready for a full-time Commercial Director? I embed with lean teams to build pipeline architecture, AI workflows, and GTM strategies on a fractional basis.</p>
               <MagneticButton isMobile={isMobile}>
                 <a href="https://straitupgrowth.com" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#fff', textDecoration: 'none', borderBottom: '1px solid rgba(255,255,255,0.3)', paddingBottom: 2, transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.borderColor = '#fff'} onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'}>
                   Discuss a project <ArrowRight size={12} />
@@ -953,8 +952,10 @@ export default function App() {
 
       </main>
       
-      {/* Print styles injection for cleaner PDF output */}
+      {/* Global CSS Reset for flawless mobile width constraint */}
       <style>{`
+        * { box-sizing: border-box; }
+        body, html { margin: 0; padding: 0; overflow-x: hidden; width: 100vw; max-width: 100%; }
         @media print {
           body { -webkit-print-color-adjust: exact; print-color-adjust: exact; background: #fff !important; }
           button { display: none !important; }
@@ -964,3 +965,6 @@ export default function App() {
     </div>
   );
 }
+
+
+```
