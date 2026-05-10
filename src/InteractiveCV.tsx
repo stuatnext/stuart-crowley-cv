@@ -420,7 +420,7 @@ function CommercialPlaybook({ isMobile }) {
   const inView = useInView(ref, { once: true, margin: '-40px' });
 
   return (
-    <div ref={ref} style={{ marginTop: 48, background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 12, padding: isMobile ? 20 : 32, overflow: 'hidden', width: '100%' }}>
+    <div ref={ref} style={{ marginTop: isMobile ? 0 : 48, background: '#fff', border: `1px solid ${BORDER}`, borderRadius: 12, padding: isMobile ? 20 : 32, overflow: 'hidden', width: '100%' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24 }}>
         <div style={{ width: 20, height: 2, background: OX }} />
         <h3 style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: OX }}>The Operator's Playbook</h3>
@@ -679,6 +679,193 @@ export default function App() {
   const isMobile = useIsMobile();
   const { isOpen: isCmdKOpen, setIsOpen: setCmdKOpen } = useCmdK();
 
+  const experienceContent = (
+    <>
+      <div id="experience" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+        <div style={{ width: 20, height: 2, background: OX }} />
+        <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>Professional Experience</h3>
+      </div>
+      <p style={{ fontSize: 12, color: SOFT, marginBottom: 24, paddingLeft: 30 }}>Click any role to reveal achievements</p>
+
+      <div style={{ marginLeft: isMobile ? 0 : -20, width: isMobile ? '100%' : 'calc(100% + 20px)' }}>
+        <Role defaultOpen={true} isMobile={isMobile} company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
+          context="Promoted from Head of Media to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, Growth Marketing Manager, Community Manager, and CRM Specialist."
+          bullets={[
+            'ACV & Margin Growth: Increased average contract value by 65%+ by overhauling pricing strategy and introducing tiered discount authorities. Delivered double-digit margin uplift.',
+            'Pipeline & Revenue Scale: Rebuilt CRM architecture to cleanly track and forecast a multi-vertical, €7M+ pipeline spanning Events, Media, and Community.',
+            'Marketing Restructure: Rebuilt marketing into a four-pillar model covering Brand, Events, Media, and Commercial. Recruited Director of Marketing and improved speed-to-lead.',
+            'New Vertical Launch: Architected GTM strategy for the new NEXTPredict event, including revenue modelling, competitor benchmarking, positioning, and launch planning.',
+            'Accountability & High Standards: Implemented the company\'s first formal OKR and KPI frameworks. Unafraid to make tough personnel decisions to benefit the business, including executing a formal PIP for an underperforming direct report.'
+          ]}
+        />
+        <Role defaultOpen={true} isMobile={isMobile} company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
+          context="Recruited to build the Media division from scratch as a P&L-owned business unit. Took it from zero to the company's most profitable division in 18 months."
+          bullets={[
+            'P&L from Zero: Built and ran a new P&L from launch, taking the division 3x in 18 months to €5M+ annualised revenue and the company\'s most profitable business unit.',
+            'High-Margin Affiliate Engine: Drove the majority of revenue through an SEO-driven affiliate channel leveraging domain authority and premium backlinks.',
+            'Enterprise Product Launch: Spun up the Research & Insights division as a new high-margin revenue line, generating six-figure year-one revenue and adding a recurring layer to the business.',
+          ]}
+        />
+        <Role isMobile={isMobile} company="CloserStill Media" title="Global Marketing Manager / Editor of Techerati" dates="Aug 2022 – May 2024" location="London & Singapore"
+          context="Managed a team of 6, leading content marketing and demand generation for the Tech Portfolio. Strategic bridge between European and APAC markets."
+          bullets={[
+            'Delivered culturally adapted GTM strategies bridging EMEA and APAC audiences across AI, SaaS, and Cybersecurity verticals.',
+            'Launched multi-market B2B content partnerships generating high-quality MQLs. Achieved 120% website traffic growth and 135% Linkedin follower uplift.',
+          ]}
+        />
+        <Role isMobile={isMobile} company="Microgaming" title="Head of Brand & Content (APAC)" dates="Mar 2021 – Aug 2022" location="Singapore"
+          context="Managed a $2M+ APAC P&L and a cross-functional team of 8, driving end-to-end brand strategy and creative direction across the Asian market."
+          bullets={[
+            'Directed digital transformation projects across six companies, delivering measurable visibility gains and a 35% uplift in regional conversion rates across APAC.',
+            'Established scalable content ecosystems and brand playbooks across B2B2C channels.',
+          ]}
+        />
+        <Role isMobile={isMobile} company="W.Media" title="Head of Production & Editorial (APAC)" dates="Feb 2019 – Mar 2021" location="Singapore"
+          context="Reported directly to the CEO. Managed a $1M+ APAC P&L, hiring 4 key regional staff to build a high-performing team of 8."
+          bullets={[
+            'Spearheaded the pivot to digital-first models during the pandemic, delivering 300%+ growth in web traffic through regional virtual summits.',
+            'Strengthened B2B partnerships with Digital Realty, Equinix, and Keppel, securing renewed sponsorships and expanding APAC market share.',
+          ]}
+        />
+        <Role isMobile={isMobile} company="ComplyAdvantage" title="Marketing Executive (EMEA)" dates="May 2018 – Feb 2019" location="London"
+          context=""
+          bullets={[
+            'Designed a unified global social strategy for this RegTech SaaS scale-up, introducing company-wide social selling enablement across Linkedin and Twitter.',
+          ]}
+          isLast
+        />
+      </div>
+    </>
+  );
+
+  const consultancyContent = (
+    <>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: isMobile ? 0 : 40, marginBottom: 16 }}>
+        <div style={{ width: 20, height: 2, background: OX }} />
+        <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>Consultancy</h3>
+      </div>
+      
+      <div style={{ marginLeft: isMobile ? 0 : -20, width: isMobile ? '100%' : 'calc(100% + 20px)' }}>
+        <Role 
+          defaultOpen={true} 
+          isMobile={isMobile} 
+          company="Strait Up Growth" 
+          hideCompanyName={true}
+          logo="https://straitupgrowth.com/logo.png" 
+          title="Founder" 
+          dates="2026 – Present" 
+          location="Singapore"
+          context="Strait Up Growth is a boutique consultancy I founded and run alongside my NEXT.io role. Embedded operator model serving lean teams across APAC and EMEA."
+          bullets={[
+            'Fractional Commercial Leadership: Embeds as a hands-on commercial operator, building pipeline architecture, forecasting frameworks, and reporting infrastructure.',
+            'AI Fluency & Workflow Efficiency: Builds practical AI adoption inside teams across use cases, prompting habits, shared libraries, and automation workflows.',
+            'Growth, GTM & Market Expansion: Designs and executes GTM architecture for new ICPs, stalled channels, and cross-border moves.',
+            'Client Impact: Delivered 30% operational efficiency uplift within 4 months for COL Web Pte Ltd. Engagement portfolio spans iGaming, SaaS, Tech, and Media.',
+          ]}
+          isLast
+        />
+      </div>
+    </>
+  );
+
+  const sidebarContent = (
+    <>
+      <SideSection title="Profile">
+        <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.75 }}>
+          <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building revenue infrastructure and GTM systems across APAC, EMEA, and LATAM.</p>
+          <p style={{ marginBottom: 12 }}>Known for building first formal commercial departments from scratch, launching new revenue verticals, scaling ACV through pricing discipline, and replacing developer bottlenecks with operator-built systems on HubSpot, Airtable, and Make.com.</p>
+          <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue. Now responsible for the full commercial P&L: pricing, pipeline, sales, and marketing across multiple verticals.</p>
+          <p>Senior APAC operating experience across two Singapore-based roles, managing regional P&Ls of $1M to $2M+. Now planning a permanent return to Singapore for a senior commercial leadership role.</p>
+        </div>
+      </SideSection>
+
+      <SideSection title="Media Division Growth">
+        <RevenueBar label="Launch baseline" amount="€0" pct={5} delay={0.1} />
+        <RevenueBar label="Month 9"         amount="€2.5M ARR" pct={50} delay={0.25} />
+        <RevenueBar label="Month 18"        amount="€5M+ ARR" pct={100} delay={0.4} />
+        <p style={{ fontSize: 11, color: SOFT, marginTop: 6, fontStyle: 'italic' }}>Scaled from scratch to €5M+ annualised in 18 months</p>
+      </SideSection>
+
+      <SideSection title="ACV Growth">
+        <div style={{ display: 'flex', borderRadius: 8, overflow: 'hidden', border: `1px solid ${BORDER}` }}>
+          {[
+            { label: 'Before', value: 'Baseline', note: 'informal pricing' },
+            { label: 'After',  value: '+65%', note: 'governance added', hl: true },
+          ].map(({ label, value, note, hl }) => (
+            <div key={label} style={{ flex: 1, padding: '16px 14px', background: hl ? OX : '#FDF9F6', textAlign: 'center', borderRight: hl ? 'none' : `1px solid ${BORDER}` }}>
+              <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: hl ? 'rgba(255,255,255,0.65)' : SOFT, marginBottom: 4 }}>{label}</div>
+              <div style={{ fontSize: 22, fontWeight: 800, color: hl ? '#fff' : TEXT, lineHeight: 1 }}>{value}</div>
+              <div style={{ fontSize: 10, color: hl ? 'rgba(255,255,255,0.6)' : SOFT, marginTop: 3 }}>{note}</div>
+            </div>
+          ))}
+        </div>
+      </SideSection>
+
+      <SideSection title="Technical Stack">
+        {[
+          { label: 'CRM & Rev Ops', tags: ['HubSpot (Adv)', 'Salesforce', 'Pipeline Architecture', 'Forecasting'] },
+          { label: 'No-Code & Auto', tags: ['Make.com', 'Softr', 'Airtable', 'Monday.com'] },
+          { label: 'AI & Intelligence', tags: ['Claude', 'Gemini', 'ChatGPT', 'Prompt Engineering'] },
+        ].map(s => (
+          <div key={s.label} style={{ marginBottom: 16 }}>
+            <div style={{ fontSize: 11.5, fontWeight: 700, color: OX, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>{s.label}</div>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+              {s.tags.map(tag => (
+                <span key={tag} style={{ background: '#EDE5DE', color: '#4A3D3D', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 6, border: `1px solid ${BORDER}` }}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </SideSection>
+
+      <SideSection title="Education">
+        <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.65 }}>
+          <div style={{ fontWeight: 700, color: TEXT, marginBottom: 2 }}>Master of Journalism</div>
+          <div style={{ color: MUTED }}>University of Sheffield · 2018</div>
+        </div>
+      </SideSection>
+    </>
+  );
+
+  const fractionalCard = (
+    <motion.div 
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+      style={{ background: '#1A1515', color: '#fff', borderRadius: 12, padding: 24, boxShadow: '0 12px 30px rgba(0,0,0,0.1)' }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <div style={{ width: 8, height: 8, background: '#10B981', borderRadius: '50%', boxShadow: '0 0 12px #10B981' }} />
+        <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#10B981' }}>Available for Fractional</span>
+      </div>
+      <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, lineHeight: 1.2 }}>Strait Up Growth</h4>
+      <p style={{ fontSize: 13, color: '#A39898', lineHeight: 1.6, marginBottom: 16 }}>Not ready for a full-time Commercial Director? I embed with lean teams to build pipeline architecture, AI workflows, and GTM strategies on a fractional basis.</p>
+      <MagneticButton isMobile={isMobile}>
+        <a href="https://straitupgrowth.com" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#fff', textDecoration: 'none', borderBottom: '1px solid rgba(255,255,255,0.3)', paddingBottom: 2, transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.borderColor = '#fff'} onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'}>
+          Discuss a project <ArrowRight size={12} />
+        </a>
+      </MagneticButton>
+    </motion.div>
+  );
+
+  const compassCard = (
+    <div style={{ border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, background: '#fff' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <ShieldCheck size={18} color="#2E7D32" />
+        <h4 style={{ fontSize: 14, fontWeight: 700, color: TEXT, margin: 0 }}>MOM COMPASS Ready</h4>
+      </div>
+      <p style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.6, marginBottom: 12 }}>
+        Fully pre-qualified for Singapore Employment Pass sponsorship, dramatically reducing HR friction.
+      </p>
+      <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <li style={{ fontSize: 12, color: '#3A3030', display: 'flex', gap: 8, alignItems: 'flex-start' }}><span style={{ color: '#2E7D32', fontWeight: 'bold' }}>✓</span> <span><strong>COMPASS C2 Eligible</strong><br/><span style={{ color: SOFT, fontSize: 11 }}>Top 100 University Degree</span></span></li>
+        <li style={{ fontSize: 12, color: '#3A3030', display: 'flex', gap: 8, alignItems: 'flex-start' }}><span style={{ color: '#2E7D32', fontWeight: 'bold' }}>✓</span> <span><strong>Former EP Holder</strong><br/><span style={{ color: SOFT, fontSize: 11 }}>Zero local orientation delay</span></span></li>
+        <li style={{ fontSize: 12, color: '#3A3030', display: 'flex', gap: 8, alignItems: 'flex-start' }}><span style={{ color: '#2E7D32', fontWeight: 'bold' }}>✓</span> <span><strong>APAC Market Fluency</strong><br/><span style={{ color: SOFT, fontSize: 11 }}>Managed $2.5M+ SG P&Ls</span></span></li>
+      </ul>
+    </div>
+  );
+
   return (
     <div style={{ minHeight: '100vh', background: BG, color: TEXT, fontFamily: "'Inter', sans-serif", width: '100vw', maxWidth: '100%', overflowX: 'hidden' }}>
       <CmdKModal isOpen={isCmdKOpen} setIsOpen={setCmdKOpen} />
@@ -762,194 +949,33 @@ export default function App() {
 
       {/* ── MAIN BODY ── */}
       <main style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '40px 20px 64px' : '64px 56px 96px', width: '100%' }}>
-
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 300px', gap: isMobile ? 48 : 64, alignItems: 'start', marginBottom: 64, width: '100%' }}>
-          {/* LEFT: Experience */}
-          <div style={{ minWidth: 0, width: '100%' }}>
-            <div id="experience" style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <div style={{ width: 20, height: 2, background: OX }} />
-              <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>Professional Experience</h3>
+        {isMobile ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 48, width: '100%' }}>
+            <div style={{ minWidth: 0, width: '100%' }}>
+              {experienceContent}
+              {consultancyContent}
             </div>
-            <p style={{ fontSize: 12, color: SOFT, marginBottom: 24, paddingLeft: 30 }}>Click any role to reveal achievements</p>
-
-            <div style={{ marginLeft: isMobile ? 0 : -20, width: isMobile ? '100%' : 'calc(100% + 20px)' }}>
-              <Role defaultOpen={true} isMobile={isMobile} company="NEXT.io" title="Commercial Director" dates="Oct 2025 – Present" location="Remote (UK)"
-                context="Promoted from Head of Media to establish and lead the company's first formal Commercial Department, reporting directly to the CEO. Direct reports include Sales Director, Marketing Director, Growth Marketing Manager, Community Manager, and CRM Specialist."
-                bullets={[
-                  'ACV & Margin Growth: Increased average contract value by 65%+ by overhauling pricing strategy and introducing tiered discount authorities. Delivered double-digit margin uplift.',
-                  'Pipeline & Revenue Scale: Rebuilt CRM architecture to cleanly track and forecast a multi-vertical, €7M+ pipeline spanning Events, Media, and Community.',
-                  'Marketing Restructure: Rebuilt marketing into a four-pillar model covering Brand, Events, Media, and Commercial. Recruited Director of Marketing and improved speed-to-lead.',
-                  'New Vertical Launch: Architected GTM strategy for the new NEXTPredict event, including revenue modelling, competitor benchmarking, positioning, and launch planning.',
-                  'Accountability & High Standards: Implemented the company\'s first formal OKR and KPI frameworks. Unafraid to make tough personnel decisions to benefit the business, including executing a formal PIP for an underperforming direct report.'
-                ]}
-              />
-              <Role defaultOpen={true} isMobile={isMobile} company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
-                context="Recruited to build the Media division from scratch as a P&L-owned business unit. Took it from zero to the company's most profitable division in 18 months."
-                bullets={[
-                  'P&L from Zero: Built and ran a new P&L from launch, taking the division 3x in 18 months to €5M+ annualised revenue and the company\'s most profitable business unit.',
-                  'High-Margin Affiliate Engine: Drove the majority of revenue through an SEO-driven affiliate channel leveraging domain authority and premium backlinks.',
-                  'Enterprise Product Launch: Spun up the Research & Insights division as a new high-margin revenue line, generating six-figure year-one revenue and adding a recurring layer to the business.',
-                ]}
-              />
-              <Role isMobile={isMobile} company="CloserStill Media" title="Global Marketing Manager / Editor of Techerati" dates="Aug 2022 – May 2024" location="London & Singapore"
-                context="Managed a team of 6, leading content marketing and demand generation for the Tech Portfolio. Strategic bridge between European and APAC markets."
-                bullets={[
-                  'Delivered culturally adapted GTM strategies bridging EMEA and APAC audiences across AI, SaaS, and Cybersecurity verticals.',
-                  'Launched multi-market B2B content partnerships generating high-quality MQLs. Achieved 120% website traffic growth and 135% Linkedin follower uplift.',
-                ]}
-              />
-              <Role isMobile={isMobile} company="Microgaming" title="Head of Brand & Content (APAC)" dates="Mar 2021 – Aug 2022" location="Singapore"
-                context="Managed a $2M+ APAC P&L and a cross-functional team of 8, driving end-to-end brand strategy and creative direction across the Asian market."
-                bullets={[
-                  'Directed digital transformation projects across six companies, delivering measurable visibility gains and a 35% uplift in regional conversion rates across APAC.',
-                  'Established scalable content ecosystems and brand playbooks across B2B2C channels.',
-                ]}
-              />
-              <Role isMobile={isMobile} company="W.Media" title="Head of Production & Editorial (APAC)" dates="Feb 2019 – Mar 2021" location="Singapore"
-                context="Reported directly to the CEO. Managed a $1M+ APAC P&L, hiring 4 key regional staff to build a high-performing team of 8."
-                bullets={[
-                  'Spearheaded the pivot to digital-first models during the pandemic, delivering 300%+ growth in web traffic through regional virtual summits.',
-                  'Strengthened B2B partnerships with Digital Realty, Equinix, and Keppel, securing renewed sponsorships and expanding APAC market share.',
-                ]}
-              />
-              <Role isMobile={isMobile} company="ComplyAdvantage" title="Marketing Executive (EMEA)" dates="May 2018 – Feb 2019" location="London"
-                context=""
-                bullets={[
-                  'Designed a unified global social strategy for this RegTech SaaS scale-up, introducing company-wide social selling enablement across Linkedin and Twitter.',
-                ]}
-                isLast
-              />
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+              {sidebarContent}
             </div>
-
-            {/* Consultancy Section */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginTop: 40, marginBottom: 16 }}>
-              <div style={{ width: 20, height: 2, background: OX }} />
-              <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>Consultancy</h3>
-            </div>
-            
-            <div style={{ marginLeft: isMobile ? 0 : -20, width: isMobile ? '100%' : 'calc(100% + 20px)' }}>
-              <Role 
-                defaultOpen={true} 
-                isMobile={isMobile} 
-                company="Strait Up Growth" 
-                hideCompanyName={true}
-                logo="https://straitupgrowth.com/logo.png" 
-                title="Founder" 
-                dates="2026 – Present" 
-                location="Singapore"
-                context="Strait Up Growth is a boutique consultancy I founded and run alongside my NEXT.io role. Embedded operator model serving lean teams across APAC and EMEA."
-                bullets={[
-                  'Fractional Commercial Leadership: Embeds as a hands-on commercial operator, building pipeline architecture, forecasting frameworks, and reporting infrastructure.',
-                  'AI Fluency & Workflow Efficiency: Builds practical AI adoption inside teams across use cases, prompting habits, shared libraries, and automation workflows.',
-                  'Growth, GTM & Market Expansion: Designs and executes GTM architecture for new ICPs, stalled channels, and cross-border moves.',
-                  'Client Impact: Delivered 30% operational efficiency uplift within 4 months for COL Web Pte Ltd. Engagement portfolio spans iGaming, SaaS, Tech, and Media.',
-                ]}
-                isLast
-              />
-            </div>
-
-            {/* Playbook moved to the left column to fill the gap and balance height */}
             <CommercialPlaybook isMobile={isMobile} />
+            {fractionalCard}
+            {compassCard}
           </div>
-
-          {/* RIGHT: Sidebar */}
-          <aside style={{ display: 'flex', flexDirection: 'column', gap: 32, minWidth: 0, width: '100%' }}>
-
-            {/* Strait Up Growth (Consulting) Card */}
-            <motion.div 
-              whileHover={{ scale: 1.02 }}
-              transition={{ type: 'spring', stiffness: 400, damping: 25 }}
-              style={{ background: '#1A1515', color: '#fff', borderRadius: 12, padding: 24, boxShadow: '0 12px 30px rgba(0,0,0,0.1)' }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                <div style={{ width: 8, height: 8, background: '#10B981', borderRadius: '50%', boxShadow: '0 0 12px #10B981' }} />
-                <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#10B981' }}>Available for Fractional</span>
-              </div>
-              <h4 style={{ fontSize: 16, fontWeight: 700, marginBottom: 8, lineHeight: 1.2 }}>Strait Up Growth</h4>
-              <p style={{ fontSize: 13, color: '#A39898', lineHeight: 1.6, marginBottom: 16 }}>Not ready for a full-time Commercial Director? I embed with lean teams to build pipeline architecture, AI workflows, and GTM strategies on a fractional basis.</p>
-              <MagneticButton isMobile={isMobile}>
-                <a href="https://straitupgrowth.com" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#fff', textDecoration: 'none', borderBottom: '1px solid rgba(255,255,255,0.3)', paddingBottom: 2, transition: 'all 0.2s' }} onMouseEnter={e => e.currentTarget.style.borderColor = '#fff'} onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.3)'}>
-                  Discuss a project <ArrowRight size={12} />
-                </a>
-              </MagneticButton>
-            </motion.div>
-
-            {/* Singapore EP Readiness Card */}
-            <div style={{ border: `1px solid ${BORDER}`, borderRadius: 12, padding: 20, background: '#fff' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                <ShieldCheck size={18} color="#2E7D32" />
-                <h4 style={{ fontSize: 14, fontWeight: 700, color: TEXT, margin: 0 }}>MOM COMPASS Ready</h4>
-              </div>
-              <p style={{ fontSize: 12.5, color: MUTED, lineHeight: 1.6, marginBottom: 12 }}>
-                Fully pre-qualified for Singapore Employment Pass sponsorship, dramatically reducing HR friction.
-              </p>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <li style={{ fontSize: 12, color: '#3A3030', display: 'flex', gap: 8, alignItems: 'flex-start' }}><span style={{ color: '#2E7D32', fontWeight: 'bold' }}>✓</span> <span><strong>COMPASS C2 Eligible</strong><br/><span style={{ color: SOFT, fontSize: 11 }}>Top 100 University Degree</span></span></li>
-                <li style={{ fontSize: 12, color: '#3A3030', display: 'flex', gap: 8, alignItems: 'flex-start' }}><span style={{ color: '#2E7D32', fontWeight: 'bold' }}>✓</span> <span><strong>Former EP Holder</strong><br/><span style={{ color: SOFT, fontSize: 11 }}>Zero local orientation delay</span></span></li>
-                <li style={{ fontSize: 12, color: '#3A3030', display: 'flex', gap: 8, alignItems: 'flex-start' }}><span style={{ color: '#2E7D32', fontWeight: 'bold' }}>✓</span> <span><strong>APAC Market Fluency</strong><br/><span style={{ color: SOFT, fontSize: 11 }}>Managed $2.5M+ SG P&Ls</span></span></li>
-              </ul>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 64, alignItems: 'start', width: '100%' }}>
+            <div style={{ minWidth: 0, width: '100%' }}>
+              {experienceContent}
+              {consultancyContent}
+              <CommercialPlaybook isMobile={isMobile} />
             </div>
-
-            <SideSection title="Profile">
-              <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.75 }}>
-                <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building revenue infrastructure and GTM systems across APAC, EMEA, and LATAM.</p>
-                <p style={{ marginBottom: 12 }}>Known for building first formal commercial departments from scratch, launching new revenue verticals, scaling ACV through pricing discipline, and replacing developer bottlenecks with operator-built systems on HubSpot, Airtable, and Make.com.</p>
-                <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue. Now responsible for the full commercial P&L: pricing, pipeline, sales, and marketing across multiple verticals.</p>
-                <p>Senior APAC operating experience across two Singapore-based roles, managing regional P&Ls of $1M to $2M+. Now planning a permanent return to Singapore for a senior commercial leadership role.</p>
-              </div>
-            </SideSection>
-
-            <SideSection title="Media Division Growth">
-              <RevenueBar label="Launch baseline" amount="€0" pct={5} delay={0.1} />
-              <RevenueBar label="Month 9"         amount="€2.5M ARR" pct={50} delay={0.25} />
-              <RevenueBar label="Month 18"        amount="€5M+ ARR" pct={100} delay={0.4} />
-              <p style={{ fontSize: 11, color: SOFT, marginTop: 6, fontStyle: 'italic' }}>Scaled from scratch to €5M+ annualised in 18 months</p>
-            </SideSection>
-
-            <SideSection title="ACV Growth">
-              <div style={{ display: 'flex', borderRadius: 8, overflow: 'hidden', border: `1px solid ${BORDER}` }}>
-                {[
-                  { label: 'Before', value: 'Baseline', note: 'informal pricing' },
-                  { label: 'After',  value: '+65%', note: 'governance added', hl: true },
-                ].map(({ label, value, note, hl }) => (
-                  <div key={label} style={{ flex: 1, padding: '16px 14px', background: hl ? OX : '#FDF9F6', textAlign: 'center', borderRight: hl ? 'none' : `1px solid ${BORDER}` }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: hl ? 'rgba(255,255,255,0.65)' : SOFT, marginBottom: 4 }}>{label}</div>
-                    <div style={{ fontSize: 22, fontWeight: 800, color: hl ? '#fff' : TEXT, lineHeight: 1 }}>{value}</div>
-                    <div style={{ fontSize: 10, color: hl ? 'rgba(255,255,255,0.6)' : SOFT, marginTop: 3 }}>{note}</div>
-                  </div>
-                ))}
-              </div>
-            </SideSection>
-
-            <SideSection title="Technical Stack">
-              {[
-                { label: 'CRM & Rev Ops', tags: ['HubSpot (Adv)', 'Salesforce', 'Pipeline Architecture', 'Forecasting'] },
-                { label: 'No-Code & Auto', tags: ['Make.com', 'Softr', 'Airtable', 'Monday.com'] },
-                { label: 'AI & Intelligence', tags: ['Claude', 'Gemini', 'ChatGPT', 'Prompt Engineering'] },
-              ].map(s => (
-                <div key={s.label} style={{ marginBottom: 16 }}>
-                  <div style={{ fontSize: 11.5, fontWeight: 700, color: OX, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>{s.label}</div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
-                    {s.tags.map(tag => (
-                      <span key={tag} style={{ background: '#EDE5DE', color: '#4A3D3D', fontSize: 11, fontWeight: 600, padding: '4px 10px', borderRadius: 6, border: `1px solid ${BORDER}` }}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </SideSection>
-
-            <SideSection title="Education">
-              <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.65 }}>
-                <div style={{ fontWeight: 700, color: TEXT, marginBottom: 2 }}>Master of Journalism</div>
-                <div style={{ color: MUTED }}>University of Sheffield · 2018</div>
-              </div>
-            </SideSection>
-
-          </aside>
-        </div>
-
+            <aside style={{ display: 'flex', flexDirection: 'column', gap: 32, minWidth: 0, width: '100%' }}>
+              {fractionalCard}
+              {compassCard}
+              {sidebarContent}
+            </aside>
+          </div>
+        )}
       </main>
       
       {/* Global CSS Reset for flawless mobile width constraint */}
@@ -965,4 +991,3 @@ export default function App() {
     </div>
   );
 }
-
