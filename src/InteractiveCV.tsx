@@ -781,6 +781,7 @@ export default function App() {
                   'Pipeline & Revenue Scale: Rebuilt CRM architecture to cleanly track and forecast a multi-vertical, €7M+ pipeline spanning Events, Media, and Community.',
                   'Marketing Restructure: Rebuilt marketing into a four-pillar model covering Brand, Events, Media, and Commercial. Recruited Director of Marketing and improved speed-to-lead.',
                   'New Vertical Launch: Architected GTM strategy for the new NEXTPredict event, including revenue modelling, competitor benchmarking, positioning, and launch planning.',
+                  'Accountability & High Standards: Implemented the company\'s first formal OKR and KPI frameworks. Unafraid to make tough personnel decisions to benefit the business, including executing a formal PIP for an underperforming direct report.'
                 ]}
               />
               <Role defaultOpen={true} isMobile={isMobile} company="NEXT.io" title="Head of Media" dates="May 2024 – Oct 2025" location="Remote"
@@ -965,6 +966,7 @@ export default function App() {
     </div>
   );
 }
+
 
 
 ```
