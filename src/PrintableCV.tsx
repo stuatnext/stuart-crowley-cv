@@ -1,4 +1,5 @@
 import React from 'react';
+import './printable.css';
 
 const HEADSHOT = `${import.meta.env.BASE_URL}headshot.jpg`;
 
@@ -66,7 +67,7 @@ export default function PrintableCV() {
             </div>
             <div className="competency">
               <span className="competency-label">AI &amp; Systems Architecture: </span>
-              No-code building (Softr/Airtable), CRM integration logic, AI-led operational efficiency
+              Autonomous AI agents (Claude Code/MCP), no-code building (Softr/Airtable), CRM integration logic
             </div>
             <div className="competency">
               <span className="competency-label">Regional Leadership: </span>
@@ -102,7 +103,8 @@ export default function PrintableCV() {
               </li>
               <li>
                 <strong>Pipeline Forecasting &amp; CRM Rigour:</strong> Overhauled HubSpot commercial intelligence
-                across a <strong>€2.4M+ active pipeline</strong>. Improved coverage ratios and forecasting
+                across a multi-vertical <strong>€7M+ active pipeline</strong> spanning Events, Media, and
+                Community. Improved coverage ratios and forecasting
                 accuracy by resolving unclassified deal aging and funnel breakdowns.
               </li>
               <li>
@@ -111,8 +113,22 @@ export default function PrintableCV() {
                 cost-per-MQL.
               </li>
               <li>
-                <strong>New Vertical Launch:</strong> Architected the company's first prediction markets vertical
-                in New York — full GTM strategy, two-layer revenue forecasting model, and competitor benchmarking.
+                <strong>New Vertical Launch:</strong> Architected the full GTM for NEXTPredict, NEXT.io's
+                institutional prediction-markets summit in New York (Oct 2026) — positioning, phased pricing
+                ladder, two-layer revenue forecasting model, and competitor benchmarking.
+              </li>
+              <li>
+                <strong>Autonomous AI Demand Engine:</strong> Designed and built a Claude-powered outreach engine
+                that runs unattended every weekday — reconciling the mailbox against a living prospect ledger,
+                scoring and selecting targets, researching personalised hooks from live sources, drafting
+                voice-calibrated emails behind an automated linter, and shipping a daily sales brief with
+                warm-reply handoff packets on a 24-hour SLA.
+              </li>
+              <li>
+                <strong>NEXT OS:</strong> Engineered a personal commercial operating system — scheduled AI
+                routines pulling from HubSpot, Outlook, Fathom, Monday.com, and Bizzabo via MCP into an
+                encrypted (AES-GCM) data layer, compiled twice daily into a deterministic editorial brief with
+                a decision engine and calibration scorecard.
               </li>
             </ul>
           </div>
@@ -139,9 +155,9 @@ export default function PrintableCV() {
                 <strong>80% Net Retention Rate (NRR)</strong> company-wide.
               </li>
               <li>
-                <strong>Revenue Scale:</strong> Grew media division baseline from{' '}
-                <strong>~€400K to €1.2M (3× growth)</strong> within 18 months across podcast, video,
-                and display advertising.
+                <strong>Revenue Scale:</strong> Took the division{' '}
+                <strong>3× in 18 months to €5M+ annualised revenue</strong> — the company's most profitable
+                business unit — across affiliate, podcast, video, and display advertising.
               </li>
             </ul>
           </div>
@@ -226,6 +242,29 @@ export default function PrintableCV() {
           </div>
         </div>
 
+        {/* ── Consultancy ── */}
+        <div className="section">
+          <div className="section-title">Consultancy</div>
+          <div className="role">
+            <div className="role-header">
+              <span className="role-company">Strait Up Growth</span>
+              <span className="role-meta">2026 – Present &nbsp;·&nbsp; Singapore</span>
+            </div>
+            <div className="role-position">Founder</div>
+            <div className="role-context">
+              Boutique consultancy run alongside the NEXT.io role. Embedded operator model serving lean teams
+              across APAC and EMEA: fractional commercial leadership, AI fluency and workflow efficiency, and
+              GTM architecture for new ICPs and cross-border moves.
+            </div>
+            <ul className="role-achievements">
+              <li>
+                Delivered a <strong>30% operational efficiency uplift within 4 months</strong> for COL Web Pte Ltd.
+                Engagement portfolio spans iGaming, SaaS, Tech, and Media.
+              </li>
+            </ul>
+          </div>
+        </div>
+
         {/* ── Tech Stack ── */}
         <div className="section">
           <div className="section-title">Technical Skills</div>
@@ -233,6 +272,10 @@ export default function PrintableCV() {
             <div className="skill-category">
               <span className="skill-category-label">CRM &amp; Revenue Ops:</span>
               <span className="skill-items">HubSpot (Advanced), Salesforce, Pipeline Architecture, Forecasting Models</span>
+            </div>
+            <div className="skill-category">
+              <span className="skill-category-label">Agentic AI Engineering:</span>
+              <span className="skill-items">Claude Code, MCP integrations, agent orchestration, GitHub Actions, Node.js scripting</span>
             </div>
             <div className="skill-category">
               <span className="skill-category-label">No-Code &amp; Automation:</span>
@@ -268,6 +311,13 @@ export default function PrintableCV() {
               Make.com. Expert in aligning HubSpot with Monday.com through clean, scalable data models.
               Advanced practitioner of Claude and Gemini for live market intelligence and P&amp;L strategy.
             </li>
+            <li>
+              <span className="label">Production AI Systems: </span>
+              Personally designed, built, and operates three production agentic systems at NEXT.io: an
+              autonomous demand engine that works the NEXTPredict prospect list daily with a human only at the
+              send button; NEXT OS, an encrypted personal commercial operating system compiled twice daily from
+              scheduled AI routines; and a market-intelligence and content engine with a conversion-learning loop.
+            </li>
           </ul>
         </div>
 
@@ -284,12 +334,12 @@ export default function PrintableCV() {
             pageBreakInside: 'avoid',
           }}
         >
-          <span style={{ display: 'block', marginBottom: '3px', color: '#1e3a5f', fontWeight: 600 }}>
+          <span style={{ display: 'block', marginBottom: '3px', color: '#7A2535', fontWeight: 600 }}>
             Interactive Digital CV
           </span>
           <a
             href="https://stuart-crowley-cv-962156774205.us-west1.run.app/"
-            style={{ color: '#0066cc', textDecoration: 'none' }}
+            style={{ color: '#7A2535', textDecoration: 'none' }}
           >
             https://stuart-crowley-cv-962156774205.us-west1.run.app/
           </a>
