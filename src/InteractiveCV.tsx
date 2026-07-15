@@ -570,11 +570,11 @@ function Counter({ to, prefix = '', suffix = '', decimals = 0 }) {
 /* ── Career trajectory showstopper ───────────────────────── */
 const MILESTONES = [
   { x: 55,  y: 155, year: '2018', co: 'ComplyAdvantage', loc: 'London',      metric: 'Entered B2B SaaS' },
-  { x: 195, y: 128, year: '2019', co: 'W.Media',         loc: 'Singapore',   metric: '$1M+ P&L' },
-  { x: 365, y: 90,  year: '2021', co: 'Microgaming',     loc: 'Singapore',   metric: '$2M+ P&L · Team of 8' },
+  { x: 195, y: 128, year: '2019', co: 'W.Media',         loc: 'Singapore',   metric: '$1.5M P&L' },
+  { x: 365, y: 90,  year: '2021', co: 'Microgaming',     loc: 'Singapore',   metric: '$2.5M P&L · Team of 8' },
   { x: 505, y: 72,  year: '2022', co: 'CloserStill',     loc: 'London & SG', metric: 'Global Tech Portfolio' },
   { x: 660, y: 38,  year: '2024', co: 'NEXT.io',         loc: 'Head of Media', metric: '€5M+ division' },
-  { x: 825, y: 12,  year: '2026', co: 'NEXT.io / Strait Up', loc: 'Comm. Director', metric: '€2M+ pipeline', current: true },
+  { x: 825, y: 12,  year: '2026', co: 'NEXT.io / Strait Up', loc: 'Comm. Director', metric: '€7M+ pipeline', current: true },
 ];
 
 const LINE = `M 55,155 C 105,148 155,132 195,128 C 265,122 310,95 365,90 C 420,85 465,75 505,72 C 560,67 610,44 660,38 C 720,28 775,14 825,12`;
@@ -779,14 +779,14 @@ export default function App() {
           ]}
         />
         <Role isMobile={isMobile} company="Microgaming" title="Head of Brand & Content (APAC)" dates="Mar 2021 – Aug 2022" location="Singapore"
-          context="Managed a $2M+ APAC P&L and a cross-functional team of 8, driving end-to-end brand strategy and creative direction across the Asian market."
+          context="Managed a $2.5M APAC P&L and a cross-functional team of 8, driving end-to-end brand strategy and creative direction across the Asian market."
           bullets={[
             'Directed digital transformation projects across six companies, delivering measurable visibility gains and a 35% uplift in regional conversion rates across APAC.',
             'Established scalable content ecosystems and brand playbooks across B2B2C channels.',
           ]}
         />
         <Role isMobile={isMobile} company="W.Media" title="Head of Production & Editorial (APAC)" dates="Feb 2019 – Mar 2021" location="Singapore"
-          context="Reported directly to the CEO. Managed a $1M+ APAC P&L, hiring 4 key regional staff to build a high-performing team of 8."
+          context="Reported directly to the CEO. Managed a $1.5M APAC P&L, hiring 4 key regional staff to build a high-performing team of 8."
           bullets={[
             'Spearheaded the pivot to digital-first models during the pandemic, delivering 300%+ growth in web traffic through regional virtual summits.',
             'Strengthened B2B partnerships with Digital Realty, Equinix, and Keppel, securing renewed sponsorships and expanding APAC market share.',
@@ -840,7 +840,7 @@ export default function App() {
           <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building revenue infrastructure and GTM systems across APAC, EMEA, and LATAM.</p>
           <p style={{ marginBottom: 12 }}>Known for building first formal commercial departments from scratch, launching new revenue verticals, scaling ACV through pricing discipline, and replacing developer bottlenecks with operator-built systems — from HubSpot, Airtable, and Make.com through to autonomous AI agents on Claude Code and MCP that run the demand engine unattended.</p>
           <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue. Now responsible for the full commercial P&L: pricing, pipeline, sales, and marketing across multiple verticals.</p>
-          <p>Senior APAC operating experience across two Singapore-based roles, managing regional P&Ls of $1M to $2M+. Now planning a permanent return to Singapore for a senior commercial leadership role.</p>
+          <p>Senior APAC operating experience across two Singapore-based roles, managing regional P&Ls of $1.5M to $2.5M. Now planning a permanent return to Singapore for a senior commercial leadership role.</p>
         </div>
       </SideSection>
 
@@ -998,7 +998,7 @@ export default function App() {
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5, duration: 0.8 }} style={{ borderBottom: `1px solid ${BORDER}`, background: '#FDFAF7', width: '100%', overflow: 'hidden' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', padding: isMobile ? '0' : '0 56px', display: isMobile ? 'grid' : 'flex', gridTemplateColumns: isMobile ? '1fr 1fr' : 'none', width: '100%' }}>
           <StatCard index={0} isMobile={isMobile} value={5}  prefix="€" suffix="M+" label="Annualised Revenue" sub="Media division impact" />
-          <StatCard index={1} isMobile={isMobile} value={2}  prefix="€" suffix="M+" label="Active Pipeline Built" sub="HubSpot, overhauled" />
+          <StatCard index={1} isMobile={isMobile} value={7}  prefix="€" suffix="M+" label="Active Pipeline Built" sub="HubSpot, overhauled" />
           <StatCard index={2} isMobile={isMobile} value={3}  suffix="×"           label="Media Division Growth" sub="Within 18 months" />
           <StatCard index={3} isMobile={isMobile} value={65} suffix="%+"          label="ACV Growth"            sub="Pricing strategy overhaul" />
           <StatCard index={4} isMobile={isMobile} value={8}  suffix="+ yrs"       label="Commercial Leadership" sub="B2B SaaS & Media" />

@@ -103,7 +103,8 @@ export default function PrintableCV() {
               </li>
               <li>
                 <strong>Pipeline Forecasting &amp; CRM Rigour:</strong> Overhauled HubSpot commercial intelligence
-                across a <strong>€2.4M+ active pipeline</strong>. Improved coverage ratios and forecasting
+                across a multi-vertical <strong>€7M+ active pipeline</strong> spanning Events, Media, and
+                Community. Improved coverage ratios and forecasting
                 accuracy by resolving unclassified deal aging and funnel breakdowns.
               </li>
               <li>
@@ -154,9 +155,9 @@ export default function PrintableCV() {
                 <strong>80% Net Retention Rate (NRR)</strong> company-wide.
               </li>
               <li>
-                <strong>Revenue Scale:</strong> Grew media division baseline from{' '}
-                <strong>~€400K to €1.2M (3× growth)</strong> within 18 months across podcast, video,
-                and display advertising.
+                <strong>Revenue Scale:</strong> Took the division{' '}
+                <strong>3× in 18 months to €5M+ annualised revenue</strong> — the company's most profitable
+                business unit — across affiliate, podcast, video, and display advertising.
               </li>
             </ul>
           </div>
