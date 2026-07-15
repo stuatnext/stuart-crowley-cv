@@ -74,9 +74,9 @@ const PLAYBOOK_DATA = [
     id: 'automation',
     title: 'Systems & AI',
     icon: <Globe size={16} />,
-    headline: 'Operator-Led Efficiency',
-    description: 'Bypassing developer bottlenecks by architecting custom no-code stacks (Make.com, Airtable, Softr) and deploying LLMs (Claude, Gemini) to automate lead routing, content scaling, and market intelligence.',
-    tags: ['Make.com', 'Airtable', 'LLM Workflows']
+    headline: 'Agentic Engineering, Operator-Led',
+    description: 'I went past no-code stacks (Make.com, Airtable, Softr) into fully agentic systems: autonomous AI engines built on Claude Code and MCP that reconcile mailboxes, research and score prospects, draft voice-calibrated outreach, and compile encrypted daily intelligence briefs — with a human always at the send button.',
+    tags: ['Claude Code & MCP', 'Autonomous Workflows', 'Human-in-the-Loop']
   },
   {
     id: 'gtm',
@@ -88,7 +88,29 @@ const PLAYBOOK_DATA = [
   }
 ];
 
+const SYSTEMS_DATA = [
+  {
+    name: 'NEXTPredict Demand Engine',
+    tagline: 'An always-on, autonomous sales machine',
+    description: 'A scheduled Claude agent works the summit prospect list every weekday morning with no human in the loop until the moment a send needs one: it reconciles the mailbox into a living ledger, scores and selects the day\'s best targets, researches a sourced hook per prospect, drafts personalised voice-linted emails, sequences top accounts as ABM plays, and ships a daily brief with warm-reply handoff packets on a 24-hour SLA.',
+    stack: 'Claude Code · MCP (Outlook, HubSpot, Fathom) · Node.js · GitHub Actions',
+  },
+  {
+    name: 'NEXT OS',
+    tagline: 'A personal commercial operating system',
+    description: 'Scheduled AI routines fan out twice daily across HubSpot, Outlook, Fathom, Monday.com, and Bizzabo, writing to an AES-GCM-encrypted data layer that a deterministic press compiles into one editorial brief: the day\'s priorities, a structured decision engine, pre-mortems for upcoming conversations, and a calibration scorecard that tracks whether past judgement calls landed.',
+    stack: 'Agent orchestration · Encrypted data pipeline · CI-enforced governance',
+  },
+  {
+    name: 'Intelligence & Content Engine',
+    tagline: 'Market intel to pipeline and audience, daily',
+    description: 'A lossless intelligence pipeline ingests the category\'s daily signal — news, social, regulatory filings — into canonical registries of every company, person, and theme seen; it routes net-new names to outreach, drafts voice-calibrated LinkedIn content, and learns which formats convert from logged post performance.',
+    stack: 'Intel ingestion · Registry accumulation · Conversion-learning loop',
+  },
+];
+
 const HEADSHOT = './headshot.jpg';
+const PDF_URL  = `${import.meta.env.BASE_URL}Stuart-Crowley-CV.pdf`;
 const OX      = '#7A2535';
 const OX_SOFT = '#F4ECEC';
 const BG      = '#F6F2ED';
@@ -194,7 +216,9 @@ function WorldMap() {
   useEffect(() => {
     let mounted = true;
     Promise.all([
+      // @ts-ignore — runtime ESM import from CDN, no local types
       import('https://esm.sh/d3-geo@3'),
+      // @ts-ignore — runtime ESM import from CDN, no local types
       import('https://esm.sh/topojson-client@3'),
       fetch(GEO_URL).then(r => r.json())
     ]).then(([d3, topo, topoData]) => {
@@ -308,7 +332,7 @@ function CmdKModal({ isOpen, setIsOpen }) {
     { icon: <Mail size={16} />, label: 'Discuss SG EP Sponsorship', action: () => window.location.href = "mailto:scrowley194@gmail.com?subject=Singapore Opportunity" },
     { icon: <Globe size={16} />, label: 'Inquire about Fractional Consulting', action: () => window.open('https://straitupgrowth.com', '_blank') },
     { icon: <Linkedin size={16} />, label: 'Connect on LinkedIn', action: () => window.open('https://linkedin.com/in/stuart-crowley-b2b561104', '_blank') },
-    { icon: <Download size={16} />, label: 'Download / Print PDF', action: () => { setIsOpen(false); setTimeout(() => window.print(), 100); } },
+    { icon: <Download size={16} />, label: 'Download PDF CV', action: () => { setIsOpen(false); const a = document.createElement('a'); a.href = PDF_URL; a.download = 'Stuart-Crowley-CV.pdf'; document.body.appendChild(a); a.click(); a.remove(); } },
     { icon: <Briefcase size={16} />, label: 'View Experience', action: () => { setIsOpen(false); document.getElementById('experience')?.scrollIntoView({behavior: 'smooth'}); } },
   ];
 
@@ -403,6 +427,11 @@ function StickyHeader({ isMobile, onOpenCmdK }) {
             </>
           )}
           <MagneticButton isMobile={isMobile}>
+            <a href={PDF_URL} download="Stuart-Crowley-CV.pdf" style={{ background: '#fff', color: TEXT, textDecoration: 'none', padding: '8px 16px', borderRadius: 30, fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8, border: `1px solid ${BORDER}`, transition: 'all 0.2s' }} onMouseEnter={(e) => { e.currentTarget.style.borderColor = OX; e.currentTarget.style.color = OX; }} onMouseLeave={(e) => { e.currentTarget.style.borderColor = BORDER; e.currentTarget.style.color = TEXT; }}>
+              <Download size={14} /> {isMobile ? 'PDF' : 'Download PDF'}
+            </a>
+          </MagneticButton>
+          <MagneticButton isMobile={isMobile}>
             <a href="mailto:scrowley194@gmail.com" style={{ background: OX, color: '#fff', textDecoration: 'none', padding: '8px 20px', borderRadius: 30, fontSize: 13, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 8, transition: 'all 0.2s', boxShadow: '0 4px 12px rgba(122, 37, 53, 0.3)' }} onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 16px rgba(122, 37, 53, 0.4)'; }} onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(122, 37, 53, 0.3)'; }}>
               Get in touch <ArrowRight size={14} />
             </a>
@@ -477,6 +506,40 @@ function CommercialPlaybook({ isMobile }) {
             </motion.div>
           </AnimatePresence>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── AI Systems Showcase ──────────────────────────────────── */
+function SystemsShowcase({ isMobile }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-40px' });
+
+  return (
+    <div ref={ref} style={{ marginTop: isMobile ? 40 : 48, width: '100%' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+        <div style={{ width: 20, height: 2, background: OX }} />
+        <h3 style={{ fontSize: 9.5, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.2em', color: OX }}>Systems Built at NEXT.io</h3>
+      </div>
+      <p style={{ fontSize: 12, color: SOFT, marginBottom: 20, paddingLeft: 30 }}>Production AI systems designed, built, and operated hands-on — not commissioned</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {SYSTEMS_DATA.map((sys, i) => (
+          <motion.div
+            key={sys.name}
+            initial={{ opacity: 0, y: 14 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.45, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+            style={{ background: '#fff', border: `1px solid ${BORDER}`, borderLeft: `3px solid ${OX}`, borderRadius: 10, padding: isMobile ? '18px 16px' : '20px 22px' }}
+          >
+            <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'baseline', gap: '4px 10px', marginBottom: 8 }}>
+              <h4 style={{ fontSize: 15.5, fontWeight: 700, color: TEXT, margin: 0 }}>{sys.name}</h4>
+              <span style={{ fontSize: 12, fontWeight: 600, color: OX }}>{sys.tagline}</span>
+            </div>
+            <p style={{ fontSize: 13, color: '#3A3030', lineHeight: 1.65, margin: 0 }}>{sys.description}</p>
+            <div style={{ fontSize: 11, fontWeight: 600, color: SOFT, marginTop: 10, letterSpacing: '0.02em' }}>{sys.stack}</div>
+          </motion.div>
+        ))}
       </div>
     </div>
   );
@@ -611,7 +674,7 @@ function RevenueBar({ label, amount, pct, delay }) {
 }
 
 /* ── Experience role card ─────────────────────────────────── */
-function Role({ company, title, dates, location, context, bullets, isLast = false, isMobile, defaultOpen = false, logo, hideCompanyName = false }) {
+function Role({ company, title, dates, location, context, bullets, isLast = false, isMobile, defaultOpen = false, logo = null, hideCompanyName = false }) {
   const [open, setOpen] = useState(defaultOpen);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-30px' });
@@ -693,8 +756,10 @@ export default function App() {
           bullets={[
             'ACV & Margin Growth: Increased average contract value by 65%+ by overhauling pricing strategy and introducing tiered discount authorities. Delivered double-digit margin uplift.',
             'Pipeline & Revenue Scale: Rebuilt CRM architecture to cleanly track and forecast a multi-vertical, €7M+ pipeline spanning Events, Media, and Community.',
+            'New Vertical Launch: Architected the full GTM for NEXTPredict, NEXT.io\'s institutional prediction-markets summit in New York (Oct 2026) — positioning, phased pricing ladder, two-layer revenue model, competitor benchmarking, and launch plan.',
+            'Autonomous AI Demand Engine: Designed and built a Claude-powered outreach engine that runs unattended every weekday — reconciling the mailbox against a living prospect ledger, scoring and selecting targets, researching personalised hooks from live sources, drafting voice-calibrated emails behind an automated linter, and shipping a daily sales brief with warm-reply handoff packets on a 24-hour SLA.',
+            'NEXT OS: Engineered a personal commercial operating system — scheduled AI routines pulling from HubSpot, Outlook, Fathom, Monday.com, and Bizzabo via MCP into an encrypted (AES-GCM) data layer, compiled twice daily into a deterministic editorial brief with a decision engine and calibration scorecard.',
             'Marketing Restructure: Rebuilt marketing into a four-pillar model covering Brand, Events, Media, and Commercial. Recruited Director of Marketing and improved speed-to-lead.',
-            'New Vertical Launch: Architected GTM strategy for the new NEXTPredict event, including revenue modelling, competitor benchmarking, positioning, and launch planning.',
             'Accountability & High Standards: Implemented the company\'s first formal OKR and KPI frameworks. Unafraid to make tough personnel decisions to benefit the business, including executing a formal PIP for an underperforming direct report.'
           ]}
         />
@@ -773,7 +838,7 @@ export default function App() {
       <SideSection title="Profile">
         <div style={{ fontSize: 13.5, color: '#3A3030', lineHeight: 1.75 }}>
           <p style={{ marginBottom: 12 }}>Commercial leader with 8+ years building revenue infrastructure and GTM systems across APAC, EMEA, and LATAM.</p>
-          <p style={{ marginBottom: 12 }}>Known for building first formal commercial departments from scratch, launching new revenue verticals, scaling ACV through pricing discipline, and replacing developer bottlenecks with operator-built systems on HubSpot, Airtable, and Make.com.</p>
+          <p style={{ marginBottom: 12 }}>Known for building first formal commercial departments from scratch, launching new revenue verticals, scaling ACV through pricing discipline, and replacing developer bottlenecks with operator-built systems — from HubSpot, Airtable, and Make.com through to autonomous AI agents on Claude Code and MCP that run the demand engine unattended.</p>
           <p style={{ marginBottom: 12 }}>Currently Commercial Director at NEXT.io, reporting to the CEO. Promoted from Head of Media after 18 months building the Media division to €5M+ annualised revenue. Now responsible for the full commercial P&L: pricing, pipeline, sales, and marketing across multiple verticals.</p>
           <p>Senior APAC operating experience across two Singapore-based roles, managing regional P&Ls of $1M to $2M+. Now planning a permanent return to Singapore for a senior commercial leadership role.</p>
         </div>
@@ -804,6 +869,7 @@ export default function App() {
       <SideSection title="Technical Stack">
         {[
           { label: 'CRM & Rev Ops', tags: ['HubSpot (Adv)', 'Salesforce', 'Pipeline Architecture', 'Forecasting'] },
+          { label: 'Agentic AI Engineering', tags: ['Claude Code', 'MCP Integrations', 'Agent Orchestration', 'GitHub Actions', 'Node.js'] },
           { label: 'No-Code & Auto', tags: ['Make.com', 'Softr', 'Airtable', 'Monday.com'] },
           { label: 'AI & Intelligence', tags: ['Claude', 'Gemini', 'ChatGPT', 'Prompt Engineering'] },
         ].map(s => (
@@ -919,6 +985,9 @@ export default function App() {
                 <a href="https://linkedin.com/in/stuart-crowley-b2b561104" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 13, color: MUTED, textDecoration: 'none' }}>
                   <Linkedin size={12} /> LinkedIn <ExternalLink size={10} style={{ opacity: 0.5 }} />
                 </a>
+                <a href={PDF_URL} download="Stuart-Crowley-CV.pdf" style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 13, color: OX, fontWeight: 600, textDecoration: 'none', borderBottom: `1px solid ${OX_SOFT}` }}>
+                  <Download size={12} /> Download PDF CV
+                </a>
               </div>
             </motion.div>
           </div>
@@ -953,6 +1022,7 @@ export default function App() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 48, width: '100%' }}>
             <div style={{ minWidth: 0, width: '100%' }}>
               {experienceContent}
+              <SystemsShowcase isMobile={isMobile} />
               {consultancyContent}
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
@@ -966,6 +1036,7 @@ export default function App() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 64, alignItems: 'start', width: '100%' }}>
             <div style={{ minWidth: 0, width: '100%' }}>
               {experienceContent}
+              <SystemsShowcase isMobile={isMobile} />
               {consultancyContent}
               <CommercialPlaybook isMobile={isMobile} />
             </div>

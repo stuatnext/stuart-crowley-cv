@@ -1,0 +1,184 @@
+/* Printable CV — A4-targeted stylesheet for PrintableCV.tsx.
+   Rendered on screen at ?print=1 and printed to PDF by scripts/generate-pdf.mjs. */
+
+.cv-wrapper {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 9.5pt;
+  line-height: 1.5;
+  color: #1a1a1a;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.cv-container {
+  max-width: 186mm;
+  margin: 0 auto;
+  padding: 10mm 0;
+}
+
+@media screen {
+  .cv-wrapper { background: #ECE7E1; min-height: 100vh; padding: 24px 12px; }
+  .cv-container { background: #fff; padding: 16mm 14mm; box-shadow: 0 8px 40px rgba(0,0,0,0.12); }
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  border-bottom: 2.5px solid #7A2535;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+
+.name {
+  font-size: 24pt;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  color: #0A0A0A;
+}
+
+.title-line {
+  font-size: 10.5pt;
+  font-weight: 600;
+  color: #7A2535;
+  margin-top: 4px;
+}
+
+.contact-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.pill {
+  font-size: 8pt;
+  font-weight: 600;
+  color: #4A3D3D;
+  background: #F4ECEC;
+  border: 1px solid #E2D9D0;
+  border-radius: 10px;
+  padding: 2px 8px;
+  white-space: nowrap;
+}
+
+.pill.location {
+  background: #7A2535;
+  border-color: #7A2535;
+  color: #fff;
+}
+
+.header-image {
+  width: 82px;
+  height: 82px;
+  border-radius: 8px;
+  object-fit: cover;
+  object-position: top;
+  flex-shrink: 0;
+}
+
+/* ── Sections ── */
+.section { margin-bottom: 12px; }
+
+.section-title {
+  font-size: 8.5pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #7A2535;
+  border-bottom: 1px solid #E2D9D0;
+  padding-bottom: 3px;
+  margin-bottom: 8px;
+}
+
+.profile p { margin: 0 0 6px; color: #2A2020; }
+.profile p:last-child { margin-bottom: 0; }
+
+/* ── Competencies ── */
+.competencies {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+}
+
+.competency { font-size: 8.8pt; color: #3A3030; line-height: 1.45; }
+.competency-label { font-weight: 700; color: #0A0A0A; }
+
+/* ── Roles ── */
+.role {
+  margin-bottom: 10px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+.role:last-child { margin-bottom: 0; }
+
+.role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.role-company { font-size: 11pt; font-weight: 700; color: #0A0A0A; }
+.role-meta { font-size: 8.2pt; color: #8A7E7E; white-space: nowrap; }
+.role-position { font-size: 9.5pt; font-weight: 600; color: #7A2535; margin-top: 1px; }
+.role-context { font-size: 8.8pt; color: #5C5050; font-style: italic; margin-top: 3px; line-height: 1.5; }
+
+.role-achievements {
+  margin: 5px 0 0;
+  padding-left: 14px;
+  list-style: none;
+}
+
+.role-achievements li {
+  position: relative;
+  margin-bottom: 3px;
+  color: #2A2020;
+  line-height: 1.5;
+}
+
+.role-achievements li::before {
+  content: '';
+  position: absolute;
+  left: -11px;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #7A2535;
+}
+
+/* ── Skills ── */
+.skills-container { display: flex; flex-direction: column; gap: 3px; }
+.skill-category { font-size: 8.8pt; line-height: 1.5; }
+.skill-category-label { font-weight: 700; color: #0A0A0A; margin-right: 4px; }
+.skill-items { color: #3A3030; }
+
+/* ── Education / Additional ── */
+.education-item { font-size: 9pt; color: #2A2020; }
+
+.additional-list { margin: 0; padding-left: 14px; list-style: none; }
+.additional-list li { position: relative; margin-bottom: 5px; color: #2A2020; line-height: 1.5; }
+.additional-list li::before {
+  content: '';
+  position: absolute;
+  left: -11px;
+  top: 0.55em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #7A2535;
+}
+.additional-list .label { font-weight: 700; color: #0A0A0A; }
+
+/* ── Print ── */
+@page { size: A4; margin: 11mm 12mm; }
+
+@media print {
+  html, body { background: #fff !important; }
+  .cv-wrapper { background: #fff; padding: 0; }
+  .cv-container { max-width: none; padding: 0; box-shadow: none; }
+}
